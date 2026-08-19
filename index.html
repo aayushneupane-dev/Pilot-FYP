@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexRide - Rent to Earn</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --esewa-color: #60bb46;
+      --khalti-color: #5c2d91;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Glassmorphism Sticky Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 8%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    /* Styled Nav Buttons */
+    .btn-login {
+      border: 1px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: var(--primary) !important;
+    }
+
+    .btn-login:hover {
+      background-color: #eff6ff;
+    }
+
+    .btn-signup {
+      background: var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #ffffff !important;
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Hero Section with Glow Accent */
+    .hero {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+      color: #fff;
+      padding: 100px 5% 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      margin-bottom: 30px;
+      color: #cbd5e1;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Container & Filters */
+    .container {
+      padding: 70px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .container h2 {
+      font-size: 2.2rem;
+      color: var(--text-dark);
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 35px;
+      font-size: 1.05rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 45px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 24px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover {
+      background: #eff6ff;
+      color: var(--primary);
+      border-color: #93c5fd;
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Grid & Hover Cards */
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: left;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .card-badge {
+      font-size: 0.75rem;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 6px 12px;
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      color: var(--text-dark);
+    }
+
+    .card .type {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .card .desc {
+      font-size: 0.95rem;
+      color: #475569;
+      flex-grow: 1;
+      margin-bottom: 22px;
+    }
+
+    .card .price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 18px;
+    }
+
+    /* Modal Backdrop Blur */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 36px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes scaleUp {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+      color: var(--text-dark);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .form-group {
+      margin-top: 18px;
+      text-align: left;
+      flex: 1;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    /* Price Summary Banner */
+    .price-summary {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    .price-summary span {
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    /* Payment Option Cards */
+    .payment-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 20px;
+      text-align: left;
+      color: #334155;
+    }
+
+    .payment-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .payment-card {
+      position: relative;
+    }
+
+    .payment-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .payment-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .esewa-option { color: var(--esewa-color); }
+    .khalti-option { color: var(--khalti-color); }
+
+    .payment-card input[type="radio"]:checked + .esewa-option {
+      border-color: var(--esewa-color);
+      background-color: #f0fdf4;
+    }
+
+    .payment-card input[type="radio"]:checked + .khalti-option {
+      border-color: var(--khalti-color);
+      background-color: #faf5ff;
+    }
+
+    #rental-form button {
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 16px;
+        padding: 1.2rem 5%;
+      }
+
+      .hero h1 {
+        font-size: 2.1rem;
+      }
+
+      .filter-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Flex<span>Ride</span></div>
+    
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="login.html" class="btn-login">Log In</a></li>
+      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Have a License, But No Vehicle?</h1>
+      <p>Welcome to the best and affordable vehicle rental provider in the market.</p>
+      <a href="#vehicles" class="btn-primary">Choose Your Vehicle</a>
+    </div>
+  </header>
+
+  <!-- Main Vehicle Directory -->
+  <section id="vehicles" class="container">
+    <h2>Select Your Work Type</h2>
+    <p class="subtitle">Filter vehicles engineered for your specific job demands.</p>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">All Vehicles</button>
+      <button class="filter-btn" data-filter="delivery">Food / Parcel Delivery</button>
+      <button class="filter-btn" data-filter="rideshare">Ride-Sharing</button>
+    </div>
+
+    <div class="vehicle-grid">
+      
+      <div class="card" data-category="delivery">
+        <div class="card-badge">Delivery Specialized</div>
+        <h3>City Scooter 125cc</h3>
+        <p class="type">Type: Scooter</p>
+        <p class="desc">Lightweight, agile, and fuel-efficient. Comes with a rear cargo box setup.</p>
+        <div class="price">Rs. 2000 / day</div>
+        <button class="btn-secondary rent-btn" data-vehicle="City Scooter 125cc" data-price="2000">Rent Now</button>
+      </div>
+
+      <div class="card" data-category="rideshare">
+        <div class="card-badge">Ride-Share Approved</div>
+        <h3>Sedan Comfort</h3>
+        <p class="type">Type: Car</p>
+        <p class="desc">Spacious 4-door sedan meeting all major ride-sharing app standards.</p>
+        <div class="price">Rs. 3500 / day</div>
+        <button class="btn-secondary rent-btn" data-vehicle="Sedan Comfort" data-price="3500">Rent Now</button>
+      </div>
+
+      <div class="card" data-category="rideshare delivery">
+        <div class="card-badge">Multi-Purpose</div>
+        <h3>Standard Commuter Bike</h3>
+        <p class="type">Type: Motorcycle</p>
+        <p class="desc">Great for quick passenger taxi rides or fast-tracked courier deliveries.</p>
+        <div class="price">Rs. 1800 / day</div>
+        <button class="btn-secondary rent-btn" data-vehicle="Standard Commuter Bike" data-price="1800">Rent Now</button>
+      </div>
+
+      <div class="card" data-category="delivery">
+        <div class="card-badge">Delivery Specialized</div>
+        <h3>Compact Van 1.5T</h3>
+        <p class="type">Type: Van</p>
+        <p class="desc">Ideal for bulk deliveries, with ample cargo space and easy maneuverability.</p>
+        <div class="price">Rs. 5000 / day</div>
+        <button class="btn-secondary rent-btn" data-vehicle="Compact Van 1.5T" data-price="5000">Rent Now</button>
+      </div>
+
+      <div class="card" data-category="rideshare">
+        <div class="card-badge">Ride-Share Approved</div>
+        <h3>Luxury SUV</h3>
+        <p class="type">Type: SUV</p>
+        <p class="desc">Premium SUV for high-end ride-sharing services, ensuring comfort and style.</p>
+        <div class="price">Rs. 7000 / day</div>
+        <button class="btn-secondary rent-btn" data-vehicle="Luxury SUV" data-price="7000">Rent Now</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Application Modal -->
+  <div id="booking-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 style="font-size: 1.4rem; color: var(--text-dark);">Complete Rental Application</h3>
+      
+      <form id="rental-form">
+        <div class="form-group">
+          <label>Selected Vehicle</label>
+          <input type="text" id="selected-vehicle" readonly>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>  
+            <input type="text" required placeholder="e.g. Ram Shrestha">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" required placeholder="98XXXXXXXX">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Driver's License No.</label>
+            <input type="text" required placeholder="01-06-XXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Gig Platform</label>
+            <input type="text" required placeholder="Pathao, InDrive, etc.">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rental Duration (Days)</label>
+          <input type="number" id="rental-days" min="1" max="30" value="1" required>
+        </div>
+
+        <div class="price-summary">
+          Total Amount: <span id="total-price">Rs. 0</span>
+        </div>
+
+        <p class="payment-title">Select Payment Method</p>
+        <div class="payment-options">
+          <div class="payment-card">
+            <input type="radio" name="payment-method" id="esewa" value="eSewa" required checked>
+            <label for="esewa" class="payment-label esewa-option">
+              eSewa
+            </label>
+          </div>
+
+          <div class="payment-card">
+            <input type="radio" name="payment-method" id="khalti" value="Khalti" required>
+            <label for="khalti" class="payment-label khalti-option">
+              Khalti
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">Proceed to Pay</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Filter Logic
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const vehicleCards = document.querySelectorAll('.card');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          const filterValue = button.getAttribute('data-filter');
+
+          vehicleCards.forEach(card => {
+            const categories = card.getAttribute('data-category');
+            if (filterValue === 'all' || categories.includes(filterValue)) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Modal & Price Calculation Logic
+      const modal = document.getElementById('booking-modal');
+      const closeBtn = document.querySelector('.close-btn');
+      const rentButtons = document.querySelectorAll('.rent-btn');
+      const selectedVehicleInput = document.getElementById('selected-vehicle');
+      const rentalDaysInput = document.getElementById('rental-days');
+      const totalPriceDisplay = document.getElementById('total-price');
+      const rentalForm = document.getElementById('rental-form');
+
+      let currentDailyRate = 0;
+
+      function updateCalculation() {
+        const days = parseInt(rentalDaysInput.value) || 1;
+        const total = currentDailyRate * days;
+        totalPriceDisplay.textContent = `Rs. ${total.toLocaleString()}`;
+      }
+
+      rentButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const vehicleName = e.target.getAttribute('data-vehicle');
+          currentDailyRate = parseInt(e.target.getAttribute('data-price'));
+
+          selectedVehicleInput.value = vehicleName;
+          rentalDaysInput.value = 1;
+          updateCalculation();
+
+          modal.style.display = 'flex';
+        });
+      });
+
+      rentalDaysInput.addEventListener('input', updateCalculation);
+
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      rentalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const selectedPayment = document.querySelector('input[name="payment-method"]:checked').value;
+        const days = rentalDaysInput.value;
+        const totalAmount = currentDailyRate * days;
+
+        alert(`Initiating ${selectedPayment} payment gateway for ${selectedVehicleInput.value}.\nDuration: ${days} day(s)\nTotal: Rs. ${totalAmount.toLocaleString()}`);
+        
+        modal.style.display = 'none';
+        rentalForm.reset();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -23,6 +23,11 @@
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
     body {
       background-color: var(--bg-main);
       color: var(--text-dark);
@@ -172,7 +177,7 @@
     /* Reviews Grid */
     .reviews-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
       margin-bottom: 50px;
     }
@@ -298,6 +303,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: background 0.2s ease;
+      width: 100%;
     }
 
     .btn-submit:hover {
@@ -307,10 +313,42 @@
     @media (max-width: 768px) {
       .navbar {
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+        padding: 1rem 5%;
       }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .hero {
+        padding: 60px 5% 50px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        margin: 30px auto;
+      }
+
       .rating-summary {
         flex-direction: column;
+        gap: 25px;
+        padding: 20px;
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .add-review-section {
+        padding: 20px;
       }
     }
   </style>

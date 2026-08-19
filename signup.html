@@ -22,6 +22,11 @@
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
     body {
       background-color: var(--bg-main);
       color: var(--text-dark);
@@ -202,7 +207,23 @@
     @media (max-width: 768px) {
       .navbar {
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+        padding: 1rem 5%;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .auth-wrapper {
+        padding: 20px 15px;
+      }
+
+      .auth-card {
+        padding: 24px 20px;
       }
     }
   </style>

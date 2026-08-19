@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexRide - Driver Reviews</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --star-color: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Glassmorphism Sticky Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 8%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .btn-login {
+      border: 1px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: var(--primary) !important;
+    }
+
+    .btn-login:hover {
+      background-color: #eff6ff;
+    }
+
+    .btn-signup {
+      background: var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #ffffff !important;
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+      color: #fff;
+      padding: 80px 5% 70px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 5%;
+    }
+
+    /* Review Metrics Summary */
+    .rating-summary {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 30px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      margin-bottom: 40px;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .summary-score {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .stars {
+      color: var(--star-color);
+      font-size: 1.2rem;
+      margin-top: 4px;
+    }
+
+    .summary-stat-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .summary-stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Reviews Grid */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .review-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .driver-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #e0e7ff;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .driver-info h4 {
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    .driver-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .review-text {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .vehicle-tag {
+      font-size: 0.75rem;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+      font-weight: 600;
+    }
+
+    /* Submit Review Form Box */
+    .add-review-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .add-review-section h3 {
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .rating-summary {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Flex<span>Ride</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="reviews.html" class="active">Reviews</a></li>
+      <li><a href="login.html" class="btn-login">Log In</a></li>
+      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>What Our Drivers Say</h1>
+      <p>Real experiences from ride-share and food delivery partners across Nepal.</p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Overall Platform Score Summary -->
+    <div class="rating-summary">
+      <div>
+        <div class="summary-score">4.8</div>
+        <div class="stars">★★★★★</div>
+        <div class="summary-stat-label">Average Driver Rating</div>
+      </div>
+      <div>
+        <div class="summary-stat-number">1,200+</div>
+        <div class="summary-stat-label">Active Rentals Completed</div>
+      </div>
+      <div>
+        <div class="summary-stat-number">98%</div>
+        <div class="summary-stat-label">Renewal Rate</div>
+      </div>
+    </div>
+
+    <!-- Drivers Reviews Grid -->
+    <div class="reviews-grid" id="reviews-container">
+
+      <div class="review-card">
+        <div>
+          <div class="driver-header">
+            <div class="avatar">RS</div>
+            <div class="driver-info">
+              <h4>Ram Shrestha</h4>
+              <span>Pathao Driver • Kathmandu</span>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p class="review-text">"Renting the Scooter 125cc doubled my weekly delivery speed. Easy eSewa daily renewal makes payment completely hassle-free!"</p>
+        </div>
+        <div class="vehicle-tag">Rented: City Scooter 125cc</div>
+      </div>
+
+      <div class="review-card">
+        <div>
+          <div class="driver-header">
+            <div class="avatar">AK</div>
+            <div class="driver-info">
+              <h4>Anish Karki</h4>
+              <span>InDrive Passenger Driver • Lalitpur</span>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p class="review-text">"The Sedan Comfort vehicle was in immaculate condition. Passengers consistently leave 5-star ratings, boosting my platform tips!"</p>
+        </div>
+        <div class="vehicle-tag">Rented: Sedan Comfort</div>
+      </div>
+
+      <div class="review-card">
+        <div>
+          <div class="driver-header">
+            <div class="avatar">BG</div>
+            <div class="driver-info">
+              <h4>Bikash Tamang</h4>
+              <span>Courier & Parcel Delivery • Bhaktapur</span>
+            </div>
+          </div>
+          <div class="stars">★★★★☆</div>
+          <p class="review-text">"The commuter bike is super light on fuel. Perfect for long delivery routes across the valley. Highly recommended!"</p>
+        </div>
+        <div class="vehicle-tag">Rented: Standard Commuter Bike</div>
+      </div>
+
+    </div>
+
+    <!-- Review Submission Section -->
+    <div class="add-review-section">
+      <h3>Leave Your Review</h3>
+      <form id="review-form">
+        <div class="form-group">
+          <label>Your Full Name</label>
+          <input type="text" id="reviewer-name" required placeholder="e.g. Suman Gurung">
+        </div>
+
+        <div class="form-group">
+          <label>Gig Platform & Location</label>
+          <input type="text" id="reviewer-role" required placeholder="e.g. Foodmandu Courier • Kathmandu">
+        </div>
+
+        <div class="form-group">
+          <label>Rented Vehicle</label>
+          <select id="reviewer-vehicle" required>
+            <option value="City Scooter 125cc">City Scooter 125cc</option>
+            <option value="Sedan Comfort">Sedan Comfort</option>
+            <option value="Standard Commuter Bike">Standard Commuter Bike</option>
+            <option value="Compact Van 1.5T">Compact Van 1.5T</option>
+            <option value="Luxury SUV">Luxury SUV</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Rating</label>
+          <select id="reviewer-rating" required>
+            <option value="5">★★★★★ (5/5)</option>
+            <option value="4">★★★★☆ (4/5)</option>
+            <option value="3">★★★☆☆ (3/5)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Your Experience</label>
+          <textarea id="reviewer-comment" required placeholder="Share how the rental helped your work..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Post Review</button>
+      </form>
+    </div>
+
+  </main>
+
+  <script>
+    document.getElementById('review-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('reviewer-name').value;
+      const role = document.getElementById('reviewer-role').value;
+      const vehicle = document.getElementById('reviewer-vehicle').value;
+      const rating = parseInt(document.getElementById('reviewer-rating').value);
+      const comment = document.getElementById('reviewer-comment').value;
+
+      // Initials for avatar
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      const starStr = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
+      // Create Review Card
+      const newCard = document.createElement('div');
+      newCard.className = 'review-card';
+      newCard.innerHTML = `
+        <div>
+          <div class="driver-header">
+            <div class="avatar">${initials}</div>
+            <div class="driver-info">
+              <h4>${name}</h4>
+              <span>${role}</span>
+            </div>
+          </div>
+          <div class="stars">${starStr}</div>
+          <p class="review-text">"${comment}"</p>
+        </div>
+        <div class="vehicle-tag">Rented: ${vehicle}</div>
+      `;
+
+      document.getElementById('reviews-container').prepend(newCard);
+      document.getElementById('review-form').reset();
+      alert('Thank you! Your review has been published.');
+    });
+  </script>
+</body>
+</html>

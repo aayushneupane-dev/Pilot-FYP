@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexRide - Blog & Driver Insights</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 8%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .btn-login {
+      border: 1px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: var(--primary) !important;
+    }
+
+    .btn-login:hover {
+      background-color: #eff6ff;
+    }
+
+    .btn-signup {
+      background: var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #ffffff !important;
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+      color: #fff;
+      padding: 80px 5% 70px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 5%;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Featured Post */
+    .featured-post {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      margin-bottom: 50px;
+    }
+
+    .featured-post h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .meta-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .article-body p {
+      margin-bottom: 16px;
+      color: #334155;
+    }
+
+    .article-body ul {
+      margin: 0 0 20px 24px;
+      color: #334155;
+    }
+
+    .article-body li {
+      margin-bottom: 8px;
+    }
+
+    /* Blog Grid */
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #475569;
+      flex-grow: 1;
+      margin-bottom: 16px;
+    }
+
+    .read-more {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .featured-post {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Flex<span>Ride</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="login.html" class="btn-login">Log In</a></li>
+      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>FlexRide Insights & News</h1>
+      <p>Tips, guides, and platform updates for gig drivers and delivery partners.</p>
+    </div>
+  </header>
+
+  <!-- Blog Content -->
+  <main class="container">
+
+    <!-- Featured Post -->
+    <article class="featured-post">
+      <span class="tag">Gig Earnings</span>
+      <h2>How to Maximize Daily Earnings with a FlexRide Rental</h2>
+      <div class="meta-info">Published on August 19, 2026 • 5 min read</div>
+
+      <div class="article-body">
+        <p>Renting a vehicle to drive for ride-sharing or delivery services gives you complete freedom over your work hours. However, balancing vehicle rental costs with daily earnings requires smart planning. Here is how top FlexRide earners optimize their shifts:</p>
+
+        <p><strong>1. Target Peak Demand Hours</strong><br>
+        Ride-share and delivery platforms operate on dynamic demand. Working during morning commuter hours (7 AM - 10 AM) and evening rush hours (5 PM - 9 PM) ensures consistent orders and surge pricing.</p>
+
+        <p><strong>2. Choose the Right Vehicle for Your Work Type</strong></p>
+        <ul>
+          <li><strong>Scooters (125cc):</strong> Best for food delivery in congested city centers due to low rental costs and high fuel efficiency.</li>
+          <li><strong>Sedans & SUVs:</strong> Ideal for full-time ride-sharing platforms (Pathao, InDrive, etc.) to capture higher-fare passenger trips.</li>
+          <li><strong>Vans:</strong> Perfect for bulk parcel deliveries and e-commerce logistics.</li>
+        </ul>
+
+        <p><strong>3. Keep Payment Methods Ready</strong><br>
+        FlexRide enables seamless digital payments through eSewa and Khalti, allowing you to renew or extend your rental durations instantly from anywhere.</p>
+      </div>
+    </article>
+
+    <!-- Grid of Additional Project Articles -->
+    <h3 class="section-title">Latest Updates</h3>
+    <div class="blog-grid">
+
+      <div class="card">
+        <span class="tag">Payments</span>
+        <h3>Instant Booking via eSewa & Khalti</h3>
+        <p>Learn how our streamlined digital payment integrations eliminate long deposit delays and allow you to get on the road faster.</p>
+        <a href="#" class="read-more">Read Article →</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">Maintenance</span>
+        <h3>FlexRide Daily Maintenance Routine</h3>
+        <p>Every FlexRide vehicle undergoes multi-point safety checks. Here is what we inspect before handing over the keys.</p>
+        <a href="#" class="read-more">Read Article →</a>
+      </div>
+
+      <div class="card">
+        <span class="tag">Driver Safety</span>
+        <h3>Safety Tips for Rain and High Traffic</h3>
+        <p>A quick guide for scooter and commuter bike drivers on navigating heavy urban traffic safely during bad weather.</p>
+        <a href="#" class="read-more">Read Article →</a>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

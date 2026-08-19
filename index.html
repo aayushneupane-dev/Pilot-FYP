@@ -59,7 +59,8 @@
     .nav-links {
       list-style: none;
       display: flex;
-      gap: 28px;
+      align-items: center;
+      gap: 20px;
     }
 
     .nav-links a {
@@ -67,11 +68,35 @@
       color: var(--text-muted);
       font-weight: 600;
       font-size: 0.95rem;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a.active {
       color: var(--primary);
+    }
+
+    /* Styled Nav Buttons */
+    .btn-login {
+      border: 1px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: var(--primary) !important;
+    }
+
+    .btn-login:hover {
+      background-color: #eff6ff;
+    }
+
+    .btn-signup {
+      background: var(--primary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      color: #ffffff !important;
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
     }
 
     /* Hero Section with Glow Accent */
@@ -461,14 +486,20 @@
 </head>
 <body>
 
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="logo">Flex<span>Ride</span></div>
+    
     <ul class="nav-links">
-      <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#vehicles">Find Your Ride</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="login.html" class="btn-login">Log In</a></li>
+      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
     </ul>
   </nav>
 
+  <!-- Hero Section -->
   <header class="hero">
     <div class="hero-content">
       <h1>Have a License, But No Vehicle?</h1>
@@ -477,6 +508,7 @@
     </div>
   </header>
 
+  <!-- Main Vehicle Directory -->
   <section id="vehicles" class="container">
     <h2>Select Your Work Type</h2>
     <p class="subtitle">Filter vehicles engineered for your specific job demands.</p>
@@ -537,6 +569,7 @@
     </div>
   </section>
 
+  <!-- Application Modal -->
   <div id="booking-modal" class="modal">
     <div class="modal-content">
       <span class="close-btn">&times;</span>
@@ -550,7 +583,7 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>Full Name</label>
+            <label>Full Name</label>  
             <input type="text" required placeholder="e.g. Ram Shrestha">
           </div>
           <div class="form-group">

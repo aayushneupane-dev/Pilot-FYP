@@ -33,7 +33,7 @@
       line-height: 1.6;
     }
 
-    /* Navbar */
+    /* Glassmorphism Sticky Navbar */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -141,17 +141,28 @@
       font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     /* Featured Post */
     .featured-post {
       background: var(--card-bg);
       border-radius: 16px;
-      padding: 40px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       border: 1px solid var(--border-color);
       margin-bottom: 50px;
+      overflow: hidden;
+    }
+
+    .featured-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .featured-content {
+      padding: 40px;
     }
 
     .featured-post h2 {
@@ -188,23 +199,45 @@
 
     .blog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
     }
 
     .card {
       background: var(--card-bg);
       border-radius: 16px;
-      padding: 24px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       border: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background-color: #f1f5f9;
+    }
+
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
 
     .card h3 {
       font-size: 1.2rem;
       margin-bottom: 10px;
+      line-height: 1.4;
     }
 
     .card p {
@@ -223,6 +256,99 @@
 
     .read-more:hover {
       text-decoration: underline;
+    }
+
+    /* Footer Styling */
+    .site-footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 60px 8% 20px;
+      margin-top: 80px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .footer-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo span {
+      color: var(--primary);
+    }
+
+    .footer-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      color: #cbd5e1;
+    }
+
+    .payment-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .payment-badges .badge {
+      background: #1e293b;
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+    }
+
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .contact-item {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: #cbd5e1;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 20px auto 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #64748b;
     }
 
     @media (max-width: 768px) {
@@ -251,9 +377,12 @@
         margin: 30px auto;
       }
 
-      .featured-post {
+      .featured-img {
+        height: 220px;
+      }
+
+      .featured-content {
         padding: 20px;
-        margin-bottom: 30px;
       }
 
       .featured-post h2 {
@@ -263,6 +392,15 @@
       .blog-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+      }
+
+      .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .site-footer {
+        padding: 40px 5% 20px;
       }
     }
   </style>
@@ -292,58 +430,122 @@
   <!-- Blog Content -->
   <main class="container">
 
-    <!-- Featured Post -->
+    <!-- Featured Article Banner -->
     <article class="featured-post">
-      <span class="tag">Gig Earnings</span>
-      <h2>How to Maximize Daily Earnings with a FlexRide Rental</h2>
-      <div class="meta-info">Published on August 19, 2026 • 5 min read</div>
+      <img class="featured-img" src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80" alt="Gig Driver Earners">
+      
+      <div class="featured-content">
+        <span class="tag">Gig Earnings</span>
+        <h2>How to Maximize Daily Earnings with a FlexRide Rental</h2>
+        <div class="meta-info">Published on September 7, 2026 • 5 min read</div>
 
-      <div class="article-body">
-        <p>Renting a vehicle to drive for ride-sharing or delivery services gives you complete freedom over your work hours. However, balancing vehicle rental costs with daily earnings requires smart planning. Here is how top FlexRide earners optimize their shifts:</p>
+        <div class="article-body">
+          <p>Renting a vehicle to drive for ride-sharing or delivery services gives you complete freedom over your work hours. However, balancing vehicle rental costs with daily earnings requires smart planning. Here is how top FlexRide earners optimize their shifts:</p>
 
-        <p><strong>1. Target Peak Demand Hours</strong><br>
-        Ride-share and delivery platforms operate on dynamic demand. Working during morning commuter hours (7 AM - 10 AM) and evening rush hours (5 PM - 9 PM) ensures consistent orders and surge pricing.</p>
+          <p><strong>1. Target Peak Demand Hours</strong><br>
+          Ride-share and delivery platforms operate on dynamic demand. Working during morning commuter hours (7 AM - 10 AM) and evening rush hours (5 PM - 9 PM) ensures consistent orders and surge pricing.</p>
 
-        <p><strong>2. Choose the Right Vehicle for Your Work Type</strong></p>
-        <ul>
-          <li><strong>Scooters (125cc):</strong> Best for food delivery in congested city centers due to low rental costs and high fuel efficiency.</li>
-          <li><strong>Sedans & SUVs:</strong> Ideal for full-time ride-sharing platforms (Pathao, InDrive, etc.) to capture higher-fare passenger trips.</li>
-          <li><strong>Vans:</strong> Perfect for bulk parcel deliveries and e-commerce logistics.</li>
-        </ul>
+          <p><strong>2. Choose the Right Vehicle for Your Work Type</strong></p>
+          <ul>
+            <li><strong>Scooters (125cc):</strong> Best for food delivery in congested city centers due to low rental costs and high fuel efficiency.</li>
+            <li><strong>Sedans & SUVs:</strong> Ideal for full-time ride-sharing platforms (Pathao, InDrive, etc.) to capture higher-fare passenger trips.</li>
+            <li><strong>Vans:</strong> Perfect for bulk parcel deliveries and e-commerce logistics.</li>
+          </ul>
 
-        <p><strong>3. Keep Payment Methods Ready</strong><br>
-        FlexRide enables seamless digital payments through eSewa and Khalti, allowing you to renew or extend your rental durations instantly from anywhere.</p>
+          <p><strong>3. Keep Payment Methods Ready</strong><br>
+          FlexRide enables seamless digital payments through eSewa and Khalti, allowing you to renew or extend your rental durations instantly from anywhere.</p>
+        </div>
       </div>
     </article>
 
-    <!-- Grid of Additional Project Articles -->
+    <!-- Grid of Additional Articles with Images -->
     <h3 class="section-title">Latest Updates</h3>
     <div class="blog-grid">
 
       <div class="card">
-        <span class="tag">Payments</span>
-        <h3>Instant Booking via eSewa & Khalti</h3>
-        <p>Learn how our streamlined digital payment integrations eliminate long deposit delays and allow you to get on the road faster.</p>
-        <a href="#" class="read-more">Read Article →</a>
+        <img class="card-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPQ4dpfUnrnlA-Rn1NjvS0w8npFlxzSIytG0OlyRV1g&s=10" alt="Instant Payments via eSewa & Khalti">
+        <div class="card-body">
+          <span class="tag">Payments</span>
+          <h3>Instant Booking via eSewa & Khalti</h3>
+          <p>Learn how our streamlined digital payment integrations eliminate long deposit delays and allow you to get on the road faster.</p>
+          <a href="#" class="read-more">Read Article →</a>
+        </div>
       </div>
 
       <div class="card">
-        <span class="tag">Maintenance</span>
-        <h3>FlexRide Daily Maintenance Routine</h3>
-        <p>Every FlexRide vehicle undergoes multi-point safety checks. Here is what we inspect before handing over the keys.</p>
-        <a href="#" class="read-more">Read Article →</a>
+        <img class="card-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD8NbqqVjn9d6EquJ1LB1JVSZBytE3tiWM-IoCVOz-jg&s=10" alt="FlexRide Daily Vehicle Inspection">
+        <div class="card-body">
+          <span class="tag">Maintenance</span>
+          <h3>FlexRide Daily Maintenance Routine</h3>
+          <p>Every FlexRide vehicle undergoes multi-point safety checks. Here is what we inspect before handing over the keys.</p>
+          <a href="#" class="read-more">Read Article →</a>
+        </div>
       </div>
 
       <div class="card">
-        <span class="tag">Driver Safety</span>
-        <h3>Safety Tips for Rain and High Traffic</h3>
-        <p>A quick guide for scooter and commuter bike drivers on navigating heavy urban traffic safely during bad weather.</p>
-        <a href="#" class="read-more">Read Article →</a>
+        <img class="card-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiIzOZDKREukydHbxrUaamc76z2HBlUjUyh0eO6cAOJg&s=10" alt="Urban Traffic Safety">
+        <div class="card-body">
+          <span class="tag">Driver Safety</span>
+          <h3>Safety Tips for Rain and High Traffic</h3>
+          <p>A quick guide for scooter and commuter bike drivers on navigating heavy urban traffic safely during bad weather.</p>
+          <a href="#" class="read-more">Read Article →</a>
+        </div>
       </div>
 
     </div>
 
   </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <!-- Brand Info -->
+      <div class="footer-col brand-col">
+        <div class="footer-logo">Flex<span>Ride</span></div>
+        <p class="footer-desc">Nepal's trusted flexible vehicle rental platform for ride-sharing drivers and delivery partners.</p>
+        <div class="payment-badges">
+          <span class="badge">eSewa Accepted</span>
+          <span class="badge">Khalti Accepted</span>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog & Insights</a></li>
+          <li><a href="reviews.html">Driver Reviews</a></li>
+          <li><a href="index.html#vehicles">Available Vehicles</a></li>
+        </ul>
+      </div>
+
+      <!-- Driver Support -->
+      <div class="footer-col">
+        <h4>Drivers</h4>
+        <ul class="footer-links">
+          <li><a href="signup.html">Become a Partner</a></li>
+          <li><a href="login.html">Driver Portal</a></li>
+          <li><a href="#">Rental Terms & Policy</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p class="contact-item">📍 Kathmandu, Nepal</p>
+        <p class="contact-item">📞 +977 1-4XXXXXX</p>
+        <p class="contact-item">✉️ support@flexride.com.np</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 FlexRide Inc. All rights reserved.</p>
+    </div>
+  </footer>
 
 </body>
 </html>

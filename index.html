@@ -35,19 +35,151 @@
       line-height: 1.6;
     }
 
-    /* Glassmorphism Sticky Navbar */
+    /* Enhanced Glassmorphism Navbar */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 8%;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
+      padding: 1rem 8%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      box-shadow: 0 4px 30px rgba(15, 23, 42, 0.05);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.6px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .logo span {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .logo span::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      right: -8px;
+      bottom: 6px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.25s ease;
+    }
+
+    /* Subtle underline animation for main links */
+    .nav-links a:not(.btn-login):not(.btn-signup)::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: width 0.25s ease;
+      border-radius: 2px;
+    }
+
+    .nav-links a:not(.btn-login):not(.btn-signup):hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:not(.btn-login):not(.btn-signup):hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Action Buttons */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-login {
+      border: 1.5px solid var(--primary);
+      padding: 8px 20px;
+      border-radius: 10px;
+      color: var(--primary) !important;
+      font-weight: 700 !important;
+      transition: all 0.25s ease !important;
+      background: transparent;
+    }
+
+    .btn-login:hover {
+      background-color: #eff6ff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+    }
+
+    .btn-signup {
+      background: var(--primary);
+      padding: 9px 22px;
+      border-radius: 10px;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      transition: all 0.25s ease !important;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 16px;
+        padding: 1.2rem 5%;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     .logo {
@@ -524,6 +656,113 @@
         padding: 20px;
       }
     }
+    
+
+
+
+    /* Footer Styling */
+    .site-footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 60px 8% 20px;
+      margin-top: 80px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .footer-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo span {
+      color: var(--primary);
+    }
+
+    .footer-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      color: #cbd5e1;
+    }
+
+    .payment-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .payment-badges .badge {
+      background: #1e293b;
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+    }
+
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .contact-item {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: #cbd5e1;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 20px auto 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .site-footer {
+        padding: 40px 5% 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -611,6 +850,7 @@
     </div>
   </section>
 
+  <!-- Application Modal -->
   <div id="booking-modal" class="modal">
     <div class="modal-content">
       <span class="close-btn">&times;</span>
@@ -802,7 +1042,7 @@
         
         modal.style.display = 'none';
         rentalForm.reset();
-      });
+      }); 
     });
   </script>
 </body>

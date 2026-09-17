@@ -342,7 +342,7 @@ This project is licensed under the MIT License.
 
 **Aayush**
 
-| Web Developer | Robotics Enthusiast
+Frontend Developer | Backend Enthusiast |  UI/UX Creator | Robotics Enthusiast
 
 ---
 

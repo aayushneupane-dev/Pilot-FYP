@@ -3,311 +3,792 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlexRide - Blog & Driver Insights</title>
+  <meta name="description" content="FlexRide driver insights, rental tips, safety guides, and platform updates.">
+  <title>FlexRide — Driver Insights</title>
+
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-main: #f8fafc;
-      --card-bg: #ffffff;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #eff6ff;
+      --ink: #0f172a;
+      --body: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --surface: #ffffff;
+      --page: #f6f8fb;
+      --dark: #0b1220;
+      --dark-2: #111c2e;
+      --radius: 18px;
+      --shadow: 0 12px 35px rgba(15, 23, 42, .07);
+      --max: 1160px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
     }
 
     body {
-      background-color: var(--bg-main);
-      color: var(--text-dark);
-      line-height: 1.6;
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Navbar */
+    a { color: inherit; }
+    img { max-width: 100%; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    /* ---------- Header ---------- */
     .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 8%;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(226, 232, 240, .85);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 74px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
     }
 
     .logo {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      font-size: 1.35rem;
+      font-weight: 850;
+      letter-spacing: -.045em;
+      white-space: nowrap;
     }
 
-    .logo span {
-      color: var(--primary);
+    .logo-mark {
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--blue);
+      color: white;
+      font-size: .82rem;
+      font-weight: 900;
+      box-shadow: 0 5px 14px rgba(37, 99, 235, .24);
     }
+
+    .logo span { color: var(--blue); }
 
     .nav-links {
       list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 5px;
     }
 
     .nav-links a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 13px;
+      border-radius: 9px;
+      color: var(--muted);
       text-decoration: none;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
+      font-size: .91rem;
+      font-weight: 650;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
     }
 
     .nav-links a:hover,
     .nav-links a.active {
-      color: var(--primary);
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .nav-links .btn-login,
+    .nav-links .btn-signup {
+      margin-left: 5px;
+      padding: 0 17px;
     }
 
     .btn-login {
-      border: 1px solid var(--primary);
-      padding: 8px 18px;
-      border-radius: 8px;
-      color: var(--primary) !important;
+      border: 1px solid #bfdbfe;
+      background: white;
+      color: var(--blue) !important;
     }
 
     .btn-login:hover {
-      background-color: #eff6ff;
+      background: var(--blue-soft) !important;
     }
 
     .btn-signup {
-      background: var(--primary);
-      padding: 8px 18px;
-      border-radius: 8px;
-      color: #ffffff !important;
+      background: var(--blue);
+      color: white !important;
+      box-shadow: 0 5px 14px rgba(37, 99, 235, .18);
     }
 
     .btn-signup:hover {
-      background: var(--primary-hover);
+      background: var(--blue-dark) !important;
+      transform: translateY(-1px);
     }
 
-    /* Hero Banner */
+    /* ---------- Hero ---------- */
     .hero {
-      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
-      color: #fff;
-      padding: 80px 5% 70px;
-      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(37, 99, 235, .22), transparent 28%),
+        radial-gradient(circle at 86% 15%, rgba(56, 189, 248, .13), transparent 25%),
+        linear-gradient(135deg, #0b1220 0%, #111c2e 55%, #17243a 100%);
+      color: white;
     }
 
-    .hero-content {
-      max-width: 720px;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 1px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .hero-inner {
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 330px;
       margin: 0 auto;
+      padding: 74px 0 68px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-content { max-width: 760px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: #bfdbfe;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 25px;
+      height: 2px;
+      border-radius: 2px;
+      background: #60a5fa;
     }
 
     .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 12px;
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2.35rem, 5vw, 4.1rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+      font-weight: 850;
     }
 
     .hero p {
-      font-size: 1.1rem;
+      max-width: 670px;
+      margin: 20px 0 0;
       color: #cbd5e1;
+      font-size: 1.06rem;
     }
 
-    /* Main Container */
+    .hero-note {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .hero-note span {
+      padding: 7px 11px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 999px;
+      background: rgba(255,255,255,.055);
+      color: #dbeafe;
+      font-size: .78rem;
+      font-weight: 650;
+    }
+
+    /* ---------- Main ---------- */
     .container {
-      max-width: 1100px;
-      margin: 50px auto;
-      padding: 0 5%;
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 20px;
+    }
+
+    .featured-post {
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(0, .97fr);
+      min-height: 430px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .featured-media {
+      position: relative;
+      min-height: 430px;
+      background: #dbeafe;
+    }
+
+    .featured-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .featured-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(15,23,42,0) 55%, rgba(15,23,42,.1));
+      pointer-events: none;
+    }
+
+    .featured-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
     }
 
     .tag {
-      display: inline-block;
-      background: #e0e7ff;
-      color: #3730a3;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border: 1px solid #dbeafe;
+      border-radius: 999px;
+      background: #f8fbff;
+      color: #1d4ed8;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      margin-bottom: 16px;
     }
 
-    /* Featured Post */
-    .featured-post {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--border-color);
-      margin-bottom: 50px;
-    }
-
-    .featured-post h2 {
-      font-size: 2rem;
-      margin-bottom: 12px;
+    .featured-content h2 {
+      margin: 15px 0 11px;
+      max-width: 560px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1.12;
+      letter-spacing: -.045em;
     }
 
     .meta-info {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    .article-body {
+      margin-top: 24px;
+      color: var(--body);
+      font-size: .95rem;
     }
 
     .article-body p {
-      margin-bottom: 16px;
-      color: #334155;
+      margin: 0 0 15px;
     }
 
     .article-body ul {
-      margin: 0 0 20px 24px;
-      color: #334155;
+      margin: -2px 0 17px;
+      padding-left: 20px;
     }
 
-    .article-body li {
-      margin-bottom: 8px;
+    .article-body li { margin: 6px 0; }
+
+    .article-body strong { color: var(--ink); }
+
+    /* ---------- Latest ---------- */
+    .latest-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 62px 0 22px;
     }
 
-    /* Blog Grid */
+    .section-kicker {
+      margin: 0 0 5px;
+      color: var(--blue);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
     .section-title {
-      font-size: 1.6rem;
-      font-weight: 800;
-      margin-bottom: 24px;
+      margin: 0;
+      font-size: 1.65rem;
+      letter-spacing: -.035em;
+      line-height: 1.2;
+    }
+
+    .latest-caption {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
     }
 
     .blog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--border-color);
+      min-width: 0;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 7px 24px rgba(15, 23, 42, .045);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
 
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #cbd5e1;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, .1);
+    }
+
+    .card:focus-within {
+      outline: 3px solid rgba(37,99,235,.16);
+      outline-offset: 2px;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 205px;
+      object-fit: cover;
+      display: block;
+      background: #e2e8f0;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 24px;
+    }
+
+    .card .tag { margin-bottom: 13px; }
+
     .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
+      margin: 0 0 9px;
+      font-size: 1.16rem;
+      line-height: 1.3;
+      letter-spacing: -.025em;
     }
 
     .card p {
-      font-size: 0.95rem;
-      color: #475569;
-      flex-grow: 1;
-      margin-bottom: 16px;
+      flex: 1;
+      margin: 0 0 18px;
+      color: var(--body);
+      font-size: .91rem;
     }
 
     .read-more {
-      color: var(--primary);
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--blue);
       text-decoration: none;
+      font-size: .84rem;
+      font-weight: 800;
+    }
+
+    .read-more span {
+      transition: transform .18s ease;
+    }
+
+    .read-more:hover span { transform: translateX(3px); }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      margin-top: 80px;
+      padding: 54px 0 20px;
+      background: var(--dark);
+      color: #94a3b8;
+    }
+
+    .footer-container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1.15fr;
+      gap: 42px;
+      padding-bottom: 42px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 13px;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .footer-logo span { color: #60a5fa; }
+
+    .footer-desc {
+      max-width: 320px;
+      margin: 0 0 17px;
+      color: #94a3b8;
+      font-size: .87rem;
+      line-height: 1.7;
+    }
+
+    .payment-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .payment-badges .badge {
+      padding: 5px 9px;
+      border: 1px solid #26354a;
+      border-radius: 7px;
+      background: #111c2e;
+      color: #cbd5e1;
+      font-size: .7rem;
       font-weight: 700;
-      font-size: 0.9rem;
     }
 
-    .read-more:hover {
-      text-decoration: underline;
+    .footer-col h4 {
+      margin: 3px 0 14px;
+      color: #f8fafc;
+      font-size: .84rem;
+      font-weight: 800;
+      letter-spacing: .02em;
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        gap: 16px;
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .footer-links li { margin-bottom: 9px; }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: .84rem;
+      transition: color .18s ease;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .contact-item {
+      margin: 0 0 10px;
+      color: #cbd5e1;
+      font-size: .84rem;
+    }
+
+    .footer-bottom {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 18px auto 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: #64748b;
+      font-size: .75rem;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .nav-inner { width: min(var(--max), calc(100% - 28px)); }
+      .nav-links { gap: 1px; }
+      .nav-links a { padding: 0 9px; }
+
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-media { min-height: 320px; max-height: 390px; }
+      .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .footer-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .featured-post {
-        padding: 24px;
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        min-height: auto;
+        padding: 12px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 9px;
+      }
+
+      .logo { margin-right: auto; }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
+
+      .nav-links::-webkit-scrollbar { display: none; }
+
+      .nav-links a { white-space: nowrap; }
+
+      .nav-links .btn-login,
+      .nav-links .btn-signup { margin-left: 0; }
+
+      .hero-inner {
+        width: min(var(--max), calc(100% - 28px));
+        min-height: 300px;
+        padding: 58px 0;
+      }
+
+      .container,
+      .footer-container,
+      .footer-bottom {
+        width: min(var(--max), calc(100% - 28px));
+      }
+
+      .container { padding-top: 38px; }
+
+      .featured-media {
+        min-height: 235px;
+        max-height: 260px;
+      }
+
+      .featured-content { padding: 28px 24px 30px; }
+
+      .article-body { font-size: .9rem; }
+
+      .latest-header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 46px;
+      }
+
+      .blog-grid { grid-template-columns: 1fr; }
+
+      .card-img { height: 210px; }
+
+      .site-footer { margin-top: 58px; }
+
+      .footer-container { grid-template-columns: 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
       }
     }
   </style>
 </head>
+
 <body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="logo" href="index.html" aria-label="FlexRide home">
+        <span class="logo-mark" aria-hidden="true">F</span>
+        Flex<span>Ride</span>
+      </a>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="logo">Flex<span>Ride</span></div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="blog.html" class="active">Blog</a></li>
-      <li><a href="reviews.html">Reviews</a></li>
-      <li><a href="login.html" class="btn-login">Log In</a></li>
-      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="hero-content">
-      <h1>FlexRide Insights & News</h1>
-      <p>Tips, guides, and platform updates for gig drivers and delivery partners.</p>
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html" class="active" aria-current="page">Blog</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+          <li><a href="login.html" class="btn-login">Log In</a></li>
+          <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <!-- Blog Content -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="eyebrow">FlexRide Insights</div>
+        <h1>Practical ideas for earning, driving & staying ahead.</h1>
+        <p>Tips, guides, safety notes, and platform updates for gig drivers and delivery partners.</p>
+        <div class="hero-note" aria-label="Content categories">
+          <span>Driver tips</span>
+          <span>Vehicle care</span>
+          <span>Platform updates</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
   <main class="container">
-
-    <!-- Featured Post -->
     <article class="featured-post">
-      <span class="tag">Gig Earnings</span>
-      <h2>How to Maximize Daily Earnings with a FlexRide Rental</h2>
-      <div class="meta-info">Published on August 19, 2026 • 5 min read</div>
+      <div class="featured-media">
+        <img
+          class="featured-img"
+          src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=85"
+          alt="Driver preparing for a busy workday"
+          loading="eager"
+        >
+      </div>
 
-      <div class="article-body">
-        <p>Renting a vehicle to drive for ride-sharing or delivery services gives you complete freedom over your work hours. However, balancing vehicle rental costs with daily earnings requires smart planning. Here is how top FlexRide earners optimize their shifts:</p>
+      <div class="featured-content">
+        <span class="tag">Gig Earnings</span>
+        <h2>How to Maximize Daily Earnings with a FlexRide Rental</h2>
+        <div class="meta-info">Published September 7, 2026 · 5 min read</div>
 
-        <p><strong>1. Target Peak Demand Hours</strong><br>
-        Ride-share and delivery platforms operate on dynamic demand. Working during morning commuter hours (7 AM - 10 AM) and evening rush hours (5 PM - 9 PM) ensures consistent orders and surge pricing.</p>
+        <div class="article-body">
+          <p>Renting a vehicle to drive for ride-sharing or delivery services gives you freedom over your work hours. Balancing rental costs with daily earnings, however, takes smart planning.</p>
 
-        <p><strong>2. Choose the Right Vehicle for Your Work Type</strong></p>
-        <ul>
-          <li><strong>Scooters (125cc):</strong> Best for food delivery in congested city centers due to low rental costs and high fuel efficiency.</li>
-          <li><strong>Sedans & SUVs:</strong> Ideal for full-time ride-sharing platforms (Pathao, InDrive, etc.) to capture higher-fare passenger trips.</li>
-          <li><strong>Vans:</strong> Perfect for bulk parcel deliveries and e-commerce logistics.</li>
-        </ul>
+          <p><strong>1. Target peak demand hours</strong><br>
+          Ride-share and delivery platforms operate on dynamic demand. Morning commuter hours (7 AM–10 AM) and evening rush hours (5 PM–9 PM) can be useful periods to test for stronger order volume and surge pricing.</p>
 
-        <p><strong>3. Keep Payment Methods Ready</strong><br>
-        FlexRide enables seamless digital payments through eSewa and Khalti, allowing you to renew or extend your rental durations instantly from anywhere.</p>
+          <p><strong>2. Choose the right vehicle for your work</strong></p>
+          <ul>
+            <li><strong>Scooters (125cc):</strong> Useful for food delivery in congested city centers where fuel efficiency and maneuverability matter.</li>
+            <li><strong>Sedans & SUVs:</strong> Suited to ride-sharing platforms such as Pathao and inDrive for passenger trips.</li>
+            <li><strong>Vans:</strong> Practical for bulk parcel deliveries and e-commerce logistics.</li>
+          </ul>
+
+          <p><strong>3. Keep payment methods ready</strong><br>
+          FlexRide supports digital payments through eSewa and Khalti, helping drivers renew or extend rental periods without a lengthy in-person process.</p>
+        </div>
       </div>
     </article>
 
-    <!-- Grid of Additional Project Articles -->
-    <h3 class="section-title">Latest Updates</h3>
-    <div class="blog-grid">
-
-      <div class="card">
-        <span class="tag">Payments</span>
-        <h3>Instant Booking via eSewa & Khalti</h3>
-        <p>Learn how our streamlined digital payment integrations eliminate long deposit delays and allow you to get on the road faster.</p>
-        <a href="#" class="read-more">Read Article →</a>
+    <section aria-labelledby="latest-title">
+      <div class="latest-header">
+        <div>
+          <p class="section-kicker">From the blog</p>
+          <h2 id="latest-title" class="section-title">Latest Updates</h2>
+        </div>
+        <p class="latest-caption">Short reads for drivers on the road.</p>
       </div>
 
-      <div class="card">
-        <span class="tag">Maintenance</span>
-        <h3>FlexRide Daily Maintenance Routine</h3>
-        <p>Every FlexRide vehicle undergoes multi-point safety checks. Here is what we inspect before handing over the keys.</p>
-        <a href="#" class="read-more">Read Article →</a>
+      <div class="blog-grid">
+        <article class="card">
+          <img
+            class="card-img"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPQ4dpfUnrnlA-Rn1NjvS0w8npFlxzSIytG0OlyRV1g&s=10"
+            alt="Digital payment options for FlexRide"
+            loading="lazy"
+          >
+          <div class="card-body">
+            <span class="tag">Payments</span>
+            <h3>Instant Booking via eSewa & Khalti</h3>
+            <p>Learn how streamlined digital payment integrations can reduce deposit delays and help drivers get on the road faster.</p>
+            <a href="#" class="read-more">Read Article <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
+        <article class="card">
+          <img
+            class="card-img"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD8NbqqVjn9d6EquJ1LB1JVSZBytE3tiWM-IoCVOz-jg&s=10"
+            alt="Vehicle maintenance inspection"
+            loading="lazy"
+          >
+          <div class="card-body">
+            <span class="tag">Maintenance</span>
+            <h3>FlexRide Daily Maintenance Routine</h3>
+            <p>Every FlexRide vehicle undergoes multi-point safety checks. Here is what we inspect before handing over the keys.</p>
+            <a href="#" class="read-more">Read Article <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
+        <article class="card">
+          <img
+            class="card-img"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiIzOZDKREukydHbxrUaamc76z2HBlUjUyh0eO6cAOJg&s=10"
+            alt="Driver navigating urban traffic"
+            loading="lazy"
+          >
+          <div class="card-body">
+            <span class="tag">Driver Safety</span>
+            <h3>Safety Tips for Rain and High Traffic</h3>
+            <p>A practical guide for scooter and commuter-bike drivers navigating heavy urban traffic during difficult weather.</p>
+            <a href="#" class="read-more">Read Article <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
       </div>
-
-      <div class="card">
-        <span class="tag">Driver Safety</span>
-        <h3>Safety Tips for Rain and High Traffic</h3>
-        <p>A quick guide for scooter and commuter bike drivers on navigating heavy urban traffic safely during bad weather.</p>
-        <a href="#" class="read-more">Read Article →</a>
-      </div>
-
-    </div>
-
+    </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-logo">Flex<span>Ride</span></div>
+        <p class="footer-desc">Nepal's trusted flexible vehicle rental platform for ride-sharing drivers and delivery partners.</p>
+        <div class="payment-badges">
+          <span class="badge">eSewa Accepted</span>
+          <span class="badge">Khalti Accepted</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog & Insights</a></li>
+          <li><a href="reviews.html">Driver Reviews</a></li>
+          <li><a href="index.html#vehicles">Available Vehicles</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Drivers</h4>
+        <ul class="footer-links">
+          <li><a href="signup.html">Become a Partner</a></li>
+          <li><a href="login.html">Driver Portal</a></li>
+          <li><a href="#">Rental Terms & Policy</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p class="contact-item">📍 Kathmandu, Nepal</p>
+        <p class="contact-item">📞 +977 1-4XXXXXX</p>
+        <p class="contact-item">✉️ support@flexride.com.np</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 FlexRide Inc. All rights reserved.</p>
+      <p>Built for drivers who keep Nepal moving.</p>
+    </div>
+  </footer>
 </body>
 </html>

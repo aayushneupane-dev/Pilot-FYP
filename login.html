@@ -1,55 +1,186 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>FlexRide - Log In</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
   <style>
     :root {
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --bg-main: #f8fafc;
-      --card-bg: #ffffff;
       --text-dark: #0f172a;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --border: #e2e8f0;
+      --background: #ffffff;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
     }
 
     body {
-      background-color: var(--bg-main);
-      color: var(--text-dark);
-      line-height: 1.6;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background: var(--background);
+      color: var(--text-dark);
     }
 
-    /* Glassmorphism Sticky Navbar */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: #0f172a;
+      color: white;
+
+      transition:
+        opacity 0.7s ease,
+        visibility 0.7s ease;
+    }
+
+    #splash-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      text-align: center;
+      animation: splashEnter 0.8s ease;
+    }
+
+    .splash-logo {
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -3px;
+    }
+
+    .splash-logo span {
+      color: #60a5fa;
+    }
+
+    .splash-tagline {
+      margin-top: 8px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+
+      opacity: 0;
+      animation: taglineAppear 0.7s 0.6s ease forwards;
+    }
+
+    .loading-line {
+      width: 180px;
+      height: 3px;
+      background: #1e293b;
+      border-radius: 20px;
+      margin: 28px auto 0;
+      overflow: hidden;
+    }
+
+    .loading-line::after {
+      content: "";
+      display: block;
+      width: 50%;
+      height: 100%;
+      background: #60a5fa;
+      border-radius: inherit;
+      animation: loading 1.4s ease-in-out infinite;
+    }
+
+    @keyframes splashEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes taglineAppear {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes loading {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      50% {
+        transform: translateX(200%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .bg-decorations {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .navbar {
+      position: relative;
+      z-index: 10;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       padding: 1.2rem 8%;
-      background: rgba(255, 255, 255, 0.85);
+
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+
+      border-bottom: 1px solid var(--border);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .logo {
+      color: var(--text-dark);
+      text-decoration: none;
+
       font-size: 1.6rem;
       font-weight: 800;
-      color: var(--text-dark);
       letter-spacing: -0.5px;
     }
 
@@ -59,6 +190,7 @@
 
     .nav-links {
       list-style: none;
+
       display: flex;
       align-items: center;
       gap: 20px;
@@ -67,72 +199,103 @@
     .nav-links a {
       text-decoration: none;
       color: var(--text-muted);
-      font-weight: 600;
+
       font-size: 0.95rem;
-      transition: all 0.2s ease;
+      font-weight: 600;
+
+      transition: 0.2s ease;
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
+    .nav-links a:hover {
       color: var(--primary);
     }
 
     .btn-login {
-      border: 1px solid var(--primary);
       padding: 8px 18px;
+      border: 1px solid var(--primary);
       border-radius: 8px;
       color: var(--primary) !important;
     }
 
-    .btn-login:hover {
-      background-color: #eff6ff;
+    .btn-login.active {
+      background: #eff6ff;
     }
 
     .btn-signup {
-      background: var(--primary);
       padding: 8px 18px;
       border-radius: 8px;
-      color: #ffffff !important;
+      background: var(--primary);
+      color: white !important;
     }
 
     .btn-signup:hover {
       background: var(--primary-hover);
     }
 
-    /* Auth Centered Container */
     .auth-wrapper {
-      flex: 1;
+      min-height: calc(100vh - 80px);
+
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      align-items: center;
+
+      padding: 50px 20px;
+
+      position: relative;
+      z-index: 1;
     }
 
     .auth-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      padding: 40px;
       width: 100%;
       max-width: 420px;
+
+      padding: 20px 10px;
+
+      animation: loginAppear 0.7s ease;
+    }
+
+    @keyframes loginAppear {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-logo {
+      text-align: center;
+
+      font-size: 2.1rem;
+      font-weight: 800;
+
+      margin-bottom: 24px;
+    }
+
+    .card-logo span {
+      color: var(--primary);
     }
 
     .auth-header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .auth-header h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 6px;
+      font-size: 1.85rem;
+      margin-bottom: 8px;
     }
 
     .auth-header p {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    #login-form {
+      width: 100%;
     }
 
     .form-group {
@@ -141,72 +304,202 @@
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: #334155;
-    }
 
-    .form-group input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-    }
+      margin-bottom: 8px;
 
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    .form-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      margin-bottom: 24px;
-    }
-
-    .form-options label {
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .form-options a {
-      color: var(--primary);
-      text-decoration: none;
+      color: #374151;
+      font-size: 0.88rem;
       font-weight: 600;
     }
 
-    .form-options a:hover {
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      height: 52px;
+
+      padding: 0 16px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      color: #1f2937;
+      font-size: 0.95rem;
+
+      outline: none;
+
+      transition: 0.2s ease;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary);
+
+      box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      border: none;
+      background: none;
+
+      color: #9ca3af;
+
+      cursor: pointer;
+    }
+
+    .toggle-password:hover {
+      color: #374151;
+    }
+
+    .forgot-link-wrapper {
+      display: flex;
+      justify-content: flex-end;
+
+      margin-top: -5px;
+      margin-bottom: 26px;
+    }
+
+    .forgot-link {
+      color: var(--primary);
+      text-decoration: none;
+
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .forgot-link:hover {
       text-decoration: underline;
     }
 
     .btn-submit {
       width: 100%;
-      background: var(--primary);
-      color: #ffffff;
-      padding: 12px;
-      border-radius: 10px;
+      height: 54px;
+
       border: none;
-      font-weight: 700;
+      border-radius: 12px;
+
+      background: var(--primary);
+      color: white;
+
       font-size: 1rem;
+      font-weight: 700;
+
       cursor: pointer;
-      transition: background 0.2s ease;
+
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.35);
+
+      transition: 0.2s ease;
     }
 
     .btn-submit:hover {
       background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.99);
+    }
+
+    .btn-submit.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+
+      margin-top: 12px;
+      padding: 10px 12px;
+
+      border-radius: 8px;
+
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .success-message {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+
+      width: 100%;
+
+      margin: 32px 0 24px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-text {
+      padding: 0 16px;
+
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-social {
+      height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: white;
+      color: #374151;
+
+      font-size: 0.95rem;
+      font-weight: 600;
+
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-social:hover {
+      background: #f8fafc;
+    }
+
+    .btn-social svg {
+      width: 20px;
+      height: 20px;
     }
 
     .auth-footer {
       text-align: center;
-      margin-top: 24px;
-      font-size: 0.9rem;
+
+      margin-top: 36px;
+
       color: var(--text-muted);
+      font-size: 0.9rem;
     }
 
     .auth-footer a {
@@ -220,66 +513,593 @@
     }
 
     @media (max-width: 768px) {
+
       .navbar {
+        padding: 1rem 5%;
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .auth-wrapper {
+        min-height: calc(100vh - 120px);
+        padding: 30px 15px;
+      }
+
+      .auth-card {
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 430px) {
+
+      .nav-links a {
+        font-size: 0.82rem;
+      }
+
+      .social-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-header h2 {
+        font-size: 1.6rem;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Navigation Bar -->
+  <div id="splash-screen">
+
+    <div class="splash-content">
+
+      <h1 class="splash-logo">
+        Flex<span>Ride</span>
+      </h1>
+
+      <p class="splash-tagline">
+        Drive. Earn. Succeed.
+      </p>
+
+      <div class="loading-line"></div>
+
+    </div>
+
+  </div>
+
+
+  <svg
+    class="bg-decorations"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1440 900"
+    preserveAspectRatio="none"
+  >
+
+    <path
+      d="M-100,650 Q300,720 700,600 T1500,800"
+      fill="none"
+      stroke="#f1f5f9"
+      stroke-width="1.5"
+    />
+
+    <path
+      d="M-50,700 Q500,600 900,850 T1600,750"
+      fill="none"
+      stroke="#f1f5f9"
+      stroke-width="1.5"
+    />
+
+    <circle
+      cx="200"
+      cy="950"
+      r="180"
+      fill="none"
+      stroke="#f8fafc"
+      stroke-width="2"
+    />
+
+    <circle
+      cx="1200"
+      cy="920"
+      r="220"
+      fill="none"
+      stroke="#f8fafc"
+      stroke-width="2"
+    />
+
+  </svg>
+
+
   <nav class="navbar">
-    <div class="logo">Flex<span>Ride</span></div>
+
+    <a
+      href="index.html"
+      class="logo"
+    >
+      Flex<span>Ride</span>
+    </a>
+
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="reviews.html">Reviews</a></li>
-      <li><a href="login.html" class="btn-login active">Log In</a></li>
-      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+
+      <li>
+        <a href="index.html">
+          Home
+        </a>
+      </li>
+
+      <li>
+        <a href="blog.html">
+          Blog
+        </a>
+      </li>
+
+      <li>
+        <a href="reviews.html">
+          Reviews
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="login.html"
+          class="btn-login active"
+        >
+          Log In
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="signup.html"
+          class="btn-signup"
+        >
+          Sign Up
+        </a>
+      </li>
+
     </ul>
+
   </nav>
 
-  <!-- Login Form Section -->
+
   <main class="auth-wrapper">
+
     <div class="auth-card">
+
+      <h1 class="card-logo">
+        Flex <span>Ride</span>
+      </h1>
+
       <div class="auth-header">
-        <h2>Welcome Back</h2>
-        <p>Log in to manage your driver rentals</p>
+
+        <h2>
+          Welcome Back!
+        </h2>
+
+        <p>
+          Sign in to continue your journey
+        </p>
+
       </div>
+
 
       <form id="login-form">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="login-email" required placeholder="name@example.com">
-        </div>
 
         <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" required placeholder="••••••••">
+
+          <label for="login-email">
+            Email or Phone
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="login-email"
+              required
+              autocomplete="username"
+              placeholder="name@example.com"
+            >
+
+          </div>
+
         </div>
 
-        <div class="form-options">
-          <label><input type="checkbox"> Remember me</label>
-          <a href="#">Forgot password?</a>
+
+        <div class="form-group">
+
+          <label for="login-password">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="password"
+              id="login-password"
+              required
+              minlength="4"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+
+              <svg
+                id="eyeIcon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+
+                <path
+                  d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+
+              </svg>
+
+            </button>
+
+          </div>
+
         </div>
 
-        <button type="submit" class="btn-submit">Log In</button>
+
+        <div class="forgot-link-wrapper">
+
+          <a
+            href="#"
+            class="forgot-link"
+            id="forgot-password"
+          >
+            Forgot Password?
+          </a>
+
+        </div>
+
+
+        <div
+          id="error-message"
+          class="message error-message"
+        >
+          Please enter a valid email/phone and password.
+        </div>
+
+
+        <div
+          id="success-message"
+          class="message success-message"
+        >
+          Login successful. Opening FlexRide...
+        </div>
+
+
+        <button
+          type="submit"
+          class="btn-submit"
+          id="login-button"
+        >
+          Login
+        </button>
+
       </form>
 
-      <div class="auth-footer">
-        Don't have an account? <a href="signup.html">Sign Up</a>
+
+      <div class="divider">
+
+        <div class="divider-line"></div>
+
+        <span class="divider-text">
+          or
+        </span>
+
+        <div class="divider-line"></div>
+
       </div>
+
+
+      <div class="social-buttons">
+
+        <button
+          type="button"
+          class="btn-social"
+          id="google-login"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+
+            <circle
+              cx="12"
+              cy="12"
+              r="9"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+
+            <path
+              d="M8 12h8M12 8v8"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+
+          </svg>
+
+          Google
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn-social"
+          id="apple-login"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z" />
+
+          </svg>
+
+          Apple
+
+        </button>
+
+      </div>
+
+
+      <div class="auth-footer">
+
+        Don't have an account?
+
+        <a href="signup.html">
+          Sign up
+        </a>
+
+      </div>
+
     </div>
+
   </main>
 
+
   <script>
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      alert(`Welcome back! Logged in as ${email}`);
+
+    const splashScreen =
+      document.getElementById("splash-screen");
+
+    /*
+      Keep the animation long enough to actually
+      be visible, but not long enough to annoy
+      whoever is trying to log in.
+    */
+
+    setTimeout(() => {
+
+      splashScreen.classList.add("hide");
+
+    }, 2200);
+
+
+    const loginForm =
+      document.getElementById("login-form");
+
+    const emailInput =
+      document.getElementById("login-email");
+
+    const passwordInput =
+      document.getElementById("login-password");
+
+    const togglePassword =
+      document.getElementById("togglePassword");
+
+    const eyeIcon =
+      document.getElementById("eyeIcon");
+
+    const loginButton =
+      document.getElementById("login-button");
+
+    const errorMessage =
+      document.getElementById("error-message");
+
+    const successMessage =
+      document.getElementById("success-message");
+
+
+    togglePassword.addEventListener("click", () => {
+
+      const isPassword =
+        passwordInput.type === "password";
+
+      passwordInput.type =
+        isPassword ? "text" : "password";
+
+      togglePassword.setAttribute(
+        "aria-label",
+        isPassword
+          ? "Hide password"
+          : "Show password"
+      );
+
+      if (isPassword) {
+
+        eyeIcon.innerHTML = `
+          <path
+            d="M17.94 17.94A10.07 10.07 0 0 1 12 20
+            c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94
+            M9.9 4.24A9.12 9.12 0 0 1 12 4
+            c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19
+            m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+          />
+
+          <line
+            x1="1"
+            y1="1"
+            x2="23"
+            y2="23"
+          />
+        `;
+
+      } else {
+
+        eyeIcon.innerHTML = `
+          <path
+            d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"
+          />
+
+          <circle
+            cx="12"
+            cy="12"
+            r="3"
+          />
+        `;
+
+      }
+
     });
+
+
+    loginForm.addEventListener("submit", (event) => {
+
+      event.preventDefault();
+
+      errorMessage.style.display = "none";
+      successMessage.style.display = "none";
+
+
+      const email =
+        emailInput.value.trim();
+
+      const password =
+        passwordInput.value.trim();
+
+
+      if (
+        email.length < 3 ||
+        password.length < 4
+      ) {
+
+        errorMessage.style.display = "block";
+
+        return;
+
+      }
+
+
+      loginButton.disabled = true;
+
+      loginButton.classList.add("loading");
+
+      loginButton.textContent =
+        "Logging in...";
+
+
+      localStorage.setItem(
+        "flexrideLoggedIn",
+        "true"
+      );
+
+      localStorage.setItem(
+        "flexrideUser",
+        email
+      );
+
+
+      successMessage.style.display =
+        "block";
+
+
+      setTimeout(() => {
+
+        window.location.href =
+          "index.html";
+
+      }, 900);
+
+    });
+
+
+    document
+      .getElementById("forgot-password")
+      .addEventListener("click", (event) => {
+
+        event.preventDefault();
+
+        alert(
+          "Password recovery will be available once backend authentication is connected."
+        );
+
+      });
+
+
+
+    document
+      .getElementById("google-login")
+      .addEventListener("click", () => {
+
+        alert(
+          "Google authentication requires Google OAuth/backend integration."
+        );
+
+      });
+
+
+    document
+      .getElementById("apple-login")
+      .addEventListener("click", () => {
+
+        alert(
+          "Apple authentication requires Apple OAuth/backend integration."
+        );
+
+      });
+
+ 
+
+    if (
+      localStorage.getItem("flexrideLoggedIn") === "true"
+    ) {
+
+     
+
+      setTimeout(() => {
+
+        window.location.href =
+          "index.html";
+
+      }, 2300);
+
+    }
+
   </script>
+
 </body>
 </html>
+```

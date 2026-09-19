@@ -6,7 +6,7 @@
   <meta name="description" content="FlexRide driver reviews, testimonials, and feedback from rental partners across Nepal.">
   <title>FlexRide — Driver Reviews</title>
 
-  <style>
+  <style> 
     :root {
       --blue: #2563eb;
       --blue-dark: #1d4ed8;
@@ -68,12 +68,14 @@
     .logo {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
       text-decoration: none;
-      font-size: 1.35rem;
-      font-weight: 850;
-      letter-spacing: -.045em;
       white-space: nowrap;
+    }
+
+    .logo img {
+      display: block;
+      width: 150px;
+      height: auto;
     }
 
     .logo-mark {
@@ -524,13 +526,13 @@
     .footer-logo {
       display: inline-flex;
       margin-bottom: 13px;
-      color: #fff;
-      font-size: 1.3rem;
-      font-weight: 850;
-      letter-spacing: -.04em;
     }
 
-    .footer-logo span { color: #60a5fa; }
+    .footer-logo img {
+      display: block;
+      width: 150px;
+      height: auto;
+    }
 
     .footer-desc {
       max-width: 320px;
@@ -684,8 +686,7 @@
   <header class="navbar">
     <div class="nav-inner">
       <a class="logo" href="index.html" aria-label="FlexRide home">
-        <span class="logo-mark" aria-hidden="true">F</span>
-        Flex<span>Ride</span>
+        <img src="logo.png" alt="FlexRide">
       </a>
 
       <nav aria-label="Primary navigation">
@@ -850,7 +851,9 @@
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-col">
-        <div class="footer-logo">Flex<span>Ride</span></div>
+        <div class="footer-logo">
+          <img src="flex.png" alt="FlexRide">
+        </div>
         <p class="footer-desc">Nepal's trusted flexible vehicle rental platform for ride-sharing drivers and delivery partners.</p>
         <div class="payment-badges">
           <span class="badge">eSewa Accepted</span>

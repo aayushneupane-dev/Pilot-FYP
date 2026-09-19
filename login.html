@@ -74,9 +74,9 @@
     }
 
     .splash-logo {
-      font-size: clamp(3rem, 10vw, 5rem);
-      font-weight: 800;
-      letter-spacing: -3px;
+      width: min(70vw, 320px);
+      height: auto;
+      display: block;
     }
 
     .splash-logo span {
@@ -559,9 +559,11 @@
 
     <div class="splash-content">
 
-      <h1 class="splash-logo">
-        Flex<span>Ride</span>
-      </h1>
+      <img
+        class="splash-logo"
+        src="flex.png"
+        alt="FlexRide"
+      >
 
       <p class="splash-tagline">
         Drive. Earn. Succeed.

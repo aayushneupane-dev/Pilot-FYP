@@ -3,2871 +3,1193 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FlexRide - Affordable vehicle rentals for delivery and ride-sharing drivers.">
-  <title>FlexRide - Rent to Earn</title>
+  <meta name="description" content="FlexRide — affordable vehicle rental for ride-sharing and delivery drivers in Nepal.">
+  <title>FlexRide — Rent. Drive. Earn.</title>
+
+  <style> 
+    :root{
+      --blue:#0867ed;
+      --blue-dark:#0756c9;
+      --navy:#101d3d;
+      --page:#f6f6f6;
+      --card:#eeeeee;
+      --white:#fff;
+      --text:#171717;
+      --muted:#8a8f98;
+      --line:#e8ebef;
+      --blue-soft:#edf4ff;
+      --max:1160px;
+      --ease:cubic-bezier(.2,.8,.2,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      background:var(--page);
+      color:var(--text);
+      font-family:Arial,Helvetica,sans-serif;
+      overflow-x:hidden;
+    }
+    body.no-scroll{overflow:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    img{display:block;max-width:100%}
 
-  <style>
-    /* =========================
-       RESET & VARIABLES
-    ========================== */
-    :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-main: #f8fafc;
-      --card-bg: #ffffff;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --esewa-color: #60bb46;
-      --khalti-color: #5c2d91;
-      --danger: #dc2626;
-      --success: #16a34a;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg-main);
-      color: var(--text-dark);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body.no-scroll {
-      overflow: hidden;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    /* =========================
-       SPLASH SCREEN
-    ========================== */
-    #splash-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 3000;
-      display: grid;
-      place-items: center;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      opacity: 1;
-      visibility: visible;
-      transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
-    }
-
-    #splash-screen.is-hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .splash-brand {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      letter-spacing: -2px;
-      animation: brandIn 0.8s ease both;
-    }
-
-    .splash-brand span {
-      color: #60a5fa;
-    }
-
-    .splash-tagline {
-      color: #cbd5e1;
-      margin-top: 8px;
-      opacity: 0;
-      animation: taglineIn 0.6s 0.8s ease forwards;
-    }
-
-    @keyframes brandIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-        text-shadow: 0 0 0 transparent;
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-        text-shadow: 0 0 24px rgba(96, 165, 250, 0.45);
-      }
-    }
-
-    @keyframes taglineIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* =========================
-       NAVBAR
-    ========================== */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      padding: 1rem 8%;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 30px rgba(15, 23, 42, 0.05);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    }
-
-    .logo {
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      letter-spacing: -0.6px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .logo span {
-      color: var(--primary);
-      position: relative;
-    }
-
-    .logo span::after {
-      content: "";
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: var(--primary);
-      border-radius: 50%;
-      right: -8px;
-      bottom: 6px;
-    }
-
-    .menu-toggle {
-      display: none;
-      border: 0;
-      background: transparent;
-      color: var(--text-dark);
-      font-size: 1.6rem;
-      padding: 5px;
-    }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
-      position: relative;
-      padding: 6px 0;
-      transition: color 0.25s ease;
-    }
-
-    .nav-links a:not(.btn-login):not(.btn-signup)::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: 0;
-      left: 0;
-      background: var(--primary);
-      border-radius: 2px;
-      transition: width 0.25s ease;
-    }
-
-    .nav-links a:not(.btn-login):not(.btn-signup):hover,
-    .nav-links a.active {
-      color: var(--primary);
-    }
-
-    .nav-links a:not(.btn-login):not(.btn-signup):hover::after,
-    .nav-links a.active::after {
-      width: 100%;
-    }
-
-    .btn-login,
-    .btn-signup {
-      display: inline-block;
-      border-radius: 10px;
-      transition: all 0.25s ease;
-    }
-
-    .btn-login {
-      border: 1.5px solid var(--primary);
-      padding: 8px 20px !important;
-      color: var(--primary) !important;
-    }
-
-    .btn-login:hover {
-      background: #eff6ff;
-      transform: translateY(-1px);
-    }
-
-    .btn-signup {
-      background: var(--primary);
-      padding: 9px 22px !important;
-      color: white !important;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-    }
-
-    .btn-signup:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-    }
-
-    /* =========================
-       HERO
-    ========================== */
-    .hero {
-      background: radial-gradient(
-        circle at 50% 0%,
-        #1e293b 0%,
-        #0f172a 100%
-      );
-      color: white;
-      padding: 100px 5% 90px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(
-        circle,
-        rgba(37, 99, 235, 0.2) 0%,
-        transparent 70%
-      );
-      pointer-events: none;
-    }
-
-    .hero-content {
-      max-width: 720px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 18px;
-      letter-spacing: -0.5px;
-    }
-
-    .hero p {
-      font-size: 1.15rem;
-      margin-bottom: 30px;
-      color: #cbd5e1;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================== */
-    .btn-primary {
-      display: inline-block;
-      background: linear-gradient(
-        135deg,
-        #2563eb 0%,
-        #1d4ed8 100%
-      );
-      color: white;
-      padding: 14px 32px;
-      border-radius: 50px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(37, 99, 235, 0.45);
-    }
-
-    /* =========================
-       VEHICLE SECTION
-    ========================== */
-    .container {
-      padding: 70px 5%;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .container h2 {
-      font-size: 2.2rem;
-      color: var(--text-dark);
-      font-weight: 800;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 35px;
-      font-size: 1.05rem;
-    }
-
-    .filter-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 45px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      padding: 10px 24px;
-      border: 1px solid var(--border-color);
-      background: white;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--text-muted);
-      transition: all 0.25s ease;
-    }
-
-    .filter-btn:hover {
-      background: #eff6ff;
-      color: var(--primary);
-      border-color: #93c5fd;
-    }
-
-    .filter-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
-    }
-
-    /* =========================
-       VEHICLE CARDS
-    ========================== */
-    .vehicle-grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(280px, 1fr)
-      );
-      gap: 30px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      padding-bottom: 28px;
-      text-align: left;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
-      border-color: #cbd5e1;
-    }
-
-    .card-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      background: #f1f5f9;
-    }
-
-    .card-body {
-      padding: 28px 28px 0;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .card-badge {
-      font-size: 0.75rem;
-      background: #e0e7ff;
-      color: #3730a3;
-      padding: 6px 12px;
-      border-radius: 20px;
-      width: fit-content;
-      margin-bottom: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 6px;
-      color: var(--text-dark);
-    }
-
-    .card .type {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
-
-    .card .desc {
-      font-size: 0.95rem;
-      color: #475569;
-      flex-grow: 1;
-      margin-bottom: 22px;
-    }
-
-    .card .price {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 18px;
-    }
-
-    .btn-secondary {
-      width: 100%;
-      background: #f1f5f9;
-      color: var(--text-dark);
-      border: 1px solid var(--border-color);
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
-    }
-
-    /* =========================
-       MODALS
-    ========================== */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      overflow-y: auto;
-      padding: 20px 10px;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 500px;
-      position: relative;
-      animation: scaleUp 0.3s ease;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .login-modal .modal-content {
-      max-width: 400px;
-    }
-
-    @keyframes scaleUp {
-      from {
-        opacity: 0;
-        transform: scale(0.92);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 1.7rem;
-      cursor: pointer;
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      line-height: 1;
-    }
-
-    .close-btn:hover {
-      color: var(--text-dark);
-    }
-
-    /* =========================
-       FORMS
-    ========================== */
-    .form-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .form-group {
-      margin-top: 18px;
-      text-align: left;
-      flex: 1;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-      font-weight: 700;
-      color: #334155;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      background: white;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    .price-summary {
-      margin-top: 20px;
-      padding: 16px;
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-    }
-
-    .price-summary span {
-      color: var(--primary);
-      font-size: 1.2rem;
-    }
-
-    /* =========================
-       PAYMENT OPTIONS
-    ========================== */
-    .payment-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-top: 20px;
-      text-align: left;
-      color: #334155;
-    }
-
-    .payment-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .payment-card {
-      position: relative;
-    }
-
-    .payment-card input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .payment-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-      border: 2px solid var(--border-color);
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: all 0.2s ease;
-    }
-
-    .esewa-option {
-      color: var(--esewa-color);
-    }
-
-    .khalti-option {
-      color: var(--khalti-color);
-    }
-
-    .payment-card input[type="radio"]:checked + .esewa-option {
-      border-color: var(--esewa-color);
-      background: #f0fdf4;
-    }
-
-    .payment-card input[type="radio"]:checked + .khalti-option {
-      border-color: var(--khalti-color);
-      background: #faf5ff;
-    }
-
-    .payment-label:hover {
-      transform: translateY(-1px);
-    }
-
-    #rental-form .btn-primary,
-    #login-form .btn-primary {
-      width: 100%;
-      margin-top: 24px;
-    }
-
-    .guest-link {
-      display: block;
-      margin: 16px auto 0;
-      text-align: center;
-      color: var(--text-muted);
-      cursor: pointer;
-      text-decoration: underline;
-      background: none;
-      border: none;
-    }
-
-    .guest-link:hover {
-      color: var(--primary);
-    }
-
-    .login-error {
-      color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 8px;
-      display: none;
-    }
-
-    .login-success {
-      color: var(--success);
-      font-size: 0.85rem;
-      margin-top: 8px;
-      display: none;
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-    .site-footer {
-      background: #0f172a;
-      color: #94a3b8;
-      padding: 60px 8% 20px;
-      margin-top: 80px;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1.2fr;
-      gap: 40px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .footer-logo {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 12px;
-    }
-
-    .footer-logo span {
-      color: var(--primary);
-    }
-
-    .footer-desc {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 16px;
-      color: #cbd5e1;
-    }
-
-    .payment-badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .payment-badges .badge {
-      background: #1e293b;
-      color: #38bdf8;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid #334155;
-    }
-
-    .footer-col h4 {
-      color: white;
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-
-    .footer-links a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-
-    .footer-links a:hover {
-      color: var(--primary);
-    }
-
-    .contact-item {
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-      color: #cbd5e1;
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 20px auto 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #64748b;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================== */
-    @media (max-width: 900px) {
-      .navbar {
-        padding: 1rem 5%;
-      }
-
-      .footer-container {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .navbar {
-        flex-wrap: wrap;
-      }
-
-      .menu-toggle {
-        display: block;
-        margin-left: auto;
-      }
-
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        gap: 14px;
-        padding-top: 12px;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .hero {
-        padding: 70px 5% 60px;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .container {
-        padding: 50px 5%;
-      }
-
-      .container h2 {
-        font-size: 1.8rem;
-      }
-
-      .filter-buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .filter-btn {
-        width: 100%;
-      }
-
-      .vehicle-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .form-row {
-        flex-direction: column;
-        gap: 0;
-      }
-
-      .modal-content {
-        padding: 24px 20px;
-      }
-
-      .footer-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-
-      .site-footer {
-        padding: 40px 5% 20px;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .payment-options {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-
-      .card-body {
-        padding: 22px 20px 0;
-      }
-    }
-  
     /* =========================================================
-       FLEXRIDE REFINEMENT LAYER
-       Visual improvements only — original page structure retained.
+       NAVBAR — intentionally kept in the same visual family
+       as the other FlexRide pages
     ========================================================== */
-
-    :root {
-      --primary: #2463d8;
-      --primary-hover: #174fb9;
-      --brand-blue: #2d7be5;
-      --ink: #101a2d;
-      --soft-ink: #26344a;
-      --muted: #68768a;
-      --line: #e4e9f0;
-      --surface: #ffffff;
-      --surface-soft: #f5f8fc;
-      --navy: #0d1728;
-      --shadow-card: 0 12px 32px rgba(15, 23, 42, 0.065);
-      --shadow-card-hover: 0 22px 48px rgba(15, 23, 42, 0.105);
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      min-height:72px;
+      background:rgba(255,255,255,.96);
+      border-bottom:1px solid #e2e8f0;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .nav-inner{
+      width:min(var(--max),calc(100% - 32px));
+      min-height:72px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .logo{
+      display:inline-flex;
+      align-items:center;
+      flex-shrink:0;
+      width:138px;
+    }
+    .logo img{width:100%;height:auto;object-fit:contain}
+    .nav-links{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .nav-links a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:40px;
+      padding:0 12px;
+      border-radius:9px;
+      color:#64748b;
+      font-size:.88rem;
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active{
+      color:var(--blue);
+      background:var(--blue-soft);
+    }
+    .nav-links .btn-login{
+      margin-left:5px;
+      border:1px solid #bfdbfe;
+      background:#fff;
+      color:var(--blue);
+    }
+    .nav-links .btn-signup{
+      margin-left:2px;
+      background:var(--blue);
+      color:#fff;
+      box-shadow:0 6px 16px rgba(8,103,237,.18);
+    }
+    .nav-links .btn-signup:hover{
+      background:var(--blue-dark);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+    .menu-toggle{
+      display:none;
+      width:40px;height:40px;
+      border:1px solid var(--line);
+      border-radius:9px;
+      background:#fff;
+      color:#172033;
+      font-size:1.2rem;
     }
 
-    body {
-      color: var(--ink);
+    /* =========================================================
+       HERO — shaped to the supplied mobile design
+    ========================================================== */
+    .hero{
+      position:relative;
+      min-height:310px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
       background:
-        linear-gradient(180deg, #f7f9fc 0%, #ffffff 34%, #f7f9fc 100%);
-      -webkit-font-smoothing: antialiased;
+        radial-gradient(circle at 15% 30%,rgba(55,115,240,.18),transparent 30%),
+        radial-gradient(circle at 88% 75%,rgba(66,130,255,.13),transparent 32%),
+        var(--navy);
+      color:#fff;
+      text-align:center;
     }
-
-    /* Header */
-    .navbar {
-      min-height: 74px;
-      padding: 10px clamp(22px, 6vw, 88px);
-      background: rgba(255, 255, 255, 0.94);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.88);
-      box-shadow: 0 3px 20px rgba(15, 23, 42, 0.045);
-    }
-
-    .logo {
-      width: 158px;
-      line-height: 0;
-    }
-
-    .logo-image {
-      width: 158px;
-      height: auto;
-      display: block;
-    }
-
-    .nav-links {
-      gap: 8px;
-    }
-
-    .nav-links a {
-      padding: 9px 12px;
-      border-radius: 8px;
-      color: #59677a;
-      font-size: 0.9rem;
-      transition:
-        color 180ms ease,
-        background-color 180ms ease,
-        transform 180ms ease;
-    }
-
-    .nav-links a:not(.btn-login):not(.btn-signup)::after {
-      display: none;
-    }
-
-    .nav-links a:not(.btn-login):not(.btn-signup):hover,
-    .nav-links a.active {
-      color: var(--primary);
-      background: #f2f6fd;
-    }
-
-    .btn-login,
-    .btn-signup {
-      border-radius: 9px;
-      padding: 8px 17px !important;
-    }
-
-    .btn-login {
-      margin-left: 7px;
-      background: #fff;
-    }
-
-    .btn-signup {
-      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.18);
-    }
-
-    /* Splash */
-    #splash-screen {
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(circle at 50% 40%, rgba(45, 123, 229, 0.17), transparent 31%),
-        #0b1424;
+        linear-gradient(120deg,transparent 0 42%,rgba(255,255,255,.025) 42.2% 42.4%,transparent 42.6%),
+        radial-gradient(circle at 50% 0,rgba(255,255,255,.05),transparent 35%);
+      pointer-events:none;
+    }
+    .hero-content{
+      position:relative;
+      z-index:1;
+      width:min(650px,calc(100% - 34px));
+      padding:48px 0 54px;
+      animation:heroIn .65s var(--ease) both;
+    }
+    .eyebrow{
+      display:inline-flex;
+      padding:6px 12px;
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      color:#dbe8ff;
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .hero h1{
+      margin-top:12px;
+      font-size:clamp(27px,5vw,43px);
+      line-height:1.04;
+      letter-spacing:-.045em;
+      font-weight:850;
+    }
+    .hero p{
+      max-width:500px;
+      margin:10px auto 0;
+      color:#aebbd0;
+      font-size:11px;
+      line-height:1.55;
+    }
+    .hero-cta{
+      display:inline-flex;
+      margin-top:17px;
+      padding:9px 17px;
+      border-radius:8px;
+      background:var(--blue);
+      color:#fff;
+      font-size:9px;
+      font-weight:800;
+      box-shadow:0 10px 25px rgba(8,103,237,.25);
+      transition:.25s ease;
+    }
+    .hero-cta:hover{
+      transform:translateY(-2px);
+      background:#1c73f4;
     }
 
-    .splash-logo {
-      width: min(360px, 72vw);
-      display: block;
-      margin: 0 auto;
-      animation: splashLogoIn 650ms cubic-bezier(.22,.61,.36,1) both;
+    /* =========================================================
+       VEHICLE COLLECTION
+    ========================================================== */
+    .vehicles-section{
+      width:min(1140px,calc(100% - 30px));
+      margin:auto;
+      padding:39px 0 64px;
+    }
+    .section-heading{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    .section-heading h2{
+      font-size:23px;
+      line-height:1.15;
+      letter-spacing:-.035em;
+    }
+    .section-heading p{
+      max-width:380px;
+      margin:7px auto 0;
+      color:#a4a8ae;
+      font-size:9px;
+      line-height:1.45;
+    }
+    .filter-wrap{
+      display:flex;
+      justify-content:center;
+      margin-bottom:27px;
+    }
+    .filters{
+      display:flex;
+      width:min(340px,100%);
+      gap:2px;
+      padding:4px;
+      border-radius:10px;
+      background:#fff;
+      box-shadow:0 6px 20px rgba(25,35,60,.07);
+    }
+    .filter{
+      flex:1;
+      min-height:32px;
+      border:0;
+      border-radius:7px;
+      background:transparent;
+      color:#252525;
+      padding:0 7px;
+      font-size:8px;
+      font-weight:750;
+      transition:.22s ease;
+    }
+    .filter:hover{background:#f7faff}
+    .filter.active{
+      color:var(--blue);
+      background:#edf4ff;
     }
 
-    .splash-tagline {
-      margin-top: 18px;
-      color: #aebbd0;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      font-size: 0.68rem;
-      font-weight: 700;
+    .vehicle-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:20px;
+    }
+    .vehicle-card{
+      overflow:hidden;
+      border-radius:25px;
+      background:var(--card);
+      box-shadow:0 8px 25px rgba(18,29,61,.055);
+      transition:transform .32s var(--ease),box-shadow .32s ease;
+      animation:cardIn .55s var(--ease) both;
+    }
+    .vehicle-card:nth-child(2){animation-delay:.06s}
+    .vehicle-card:nth-child(3){animation-delay:.12s}
+    .vehicle-card:nth-child(4){animation-delay:.18s}
+    .vehicle-card:hover{
+      transform:translateY(-7px);
+      box-shadow:0 18px 38px rgba(18,29,61,.13);
+    }
+    .vehicle-card.hidden{display:none}
+
+    .vehicle-image{
+      position:relative;
+      height:205px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:#fff;
+      border-radius:0 0 25px 25px;
+    }
+    .vehicle-image::after{
+      content:"";
+      position:absolute;
+      left:14%;
+      right:14%;
+      bottom:13px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(0,0,0,.08);
+      filter:blur(7px);
+    }
+    .vehicle-image img{
+      position:relative;
+      z-index:1;
+      width:92%;
+      height:92%;
+      object-fit:contain;
+      transition:transform .45s var(--ease);
+    }
+    .vehicle-card:hover .vehicle-image img{transform:scale(1.045)}
+
+    .vehicle-info{padding:17px 18px 16px}
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      min-height:19px;
+      padding:4px 7px;
+      border-radius:999px;
+      background:#dfe9ff;
+      color:#536cc7;
+      font-size:7px;
+      line-height:1;
+      font-weight:850;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+    .vehicle-name{
+      margin-top:10px;
+      font-size:12px;
+      font-weight:850;
+    }
+    .vehicle-type{
+      margin-top:5px;
+      color:#aaa;
+      font-size:9px;
+    }
+    .vehicle-description{
+      min-height:42px;
+      margin-top:7px;
+      color:#8d8d8d;
+      font-size:9px;
+      line-height:1.45;
+    }
+    .price-row{margin-top:10px}
+    .price{
+      font-size:10px;
+      font-weight:850;
+      white-space:nowrap;
+    }
+    .rent-btn{
+      width:100%;
+      margin-top:10px;
+      min-height:29px;
+      border:0;
+      border-radius:7px;
+      background:#f7f9fb;
+      color:#222;
+      font-size:8px;
+      font-weight:850;
+      transition:.25s ease;
+    }
+    .rent-btn:hover{
+      background:var(--blue);
+      color:#fff;
+      transform:translateY(-2px);
+      box-shadow:0 7px 15px rgba(8,103,237,.16);
+    }
+    .rent-btn:active{transform:translateY(0)}
+
+    /* =========================================================
+       FOOTER — matches the supplied design
+    ========================================================== */
+    footer{
+      background:var(--navy);
+      color:#fff;
+    }
+    .footer-inner{
+      width:min(1140px,calc(100% - 30px));
+      margin:auto;
+      padding:44px 0 20px;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.45fr 1fr 1fr 1.1fr;
+      gap:38px;
+    }
+    .footer-brand img{
+      width:145px;
+      margin-bottom:12px;
+    }
+    .footer-brand p{
+      max-width:270px;
+      color:#aeb9d0;
+      font-size:9px;
+      line-height:1.65;
+    }
+    .footer-title{
+      margin-bottom:13px;
+      font-size:10px;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .footer-links{
+      display:grid;
+      gap:8px;
+    }
+    .footer-links a,
+    .contact-item{
+      color:#8e9bb5;
+      font-size:9px;
+      line-height:1.5;
+      transition:.2s ease;
+    }
+    .footer-links a:hover{
+      color:#fff;
+      transform:translateX(2px);
+    }
+    .footer-bottom{
+      margin-top:28px;
+      padding-top:13px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:#64728f;
+      text-align:center;
+      font-size:8px;
     }
 
-    @keyframes splashLogoIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px) scale(.97);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    /* =========================================================
+       MODAL — payment/rental system kept functionally unchanged
+    ========================================================== */
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:3000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px 12px;
+      background:rgba(8,15,27,.68);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      overflow-y:auto;
     }
-
-    /* Hero */
-    .hero {
-      min-height: 570px;
-      padding: 92px 5% 96px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 50% -15%, rgba(49, 126, 232, 0.24), transparent 43%),
-        radial-gradient(circle at 10% 90%, rgba(37, 99, 235, 0.11), transparent 28%),
-        linear-gradient(145deg, #101b2e 0%, #0b1423 100%);
+    .modal.show{display:flex}
+    .modal-content{
+      position:relative;
+      width:100%;
+      max-width:510px;
+      max-height:91vh;
+      overflow-y:auto;
+      padding:28px;
+      border:1px solid rgba(226,232,240,.9);
+      border-radius:20px;
+      background:#fff;
+      box-shadow:0 35px 90px rgba(0,0,0,.23);
+      animation:modalIn .28s var(--ease) both;
     }
-
-    .hero::before {
-      width: 760px;
-      height: 760px;
-      top: -510px;
-      background: radial-gradient(
-        circle,
-        rgba(45, 123, 229, 0.18) 0%,
-        transparent 68%
-      );
+    .close-btn{
+      position:absolute;
+      top:14px;
+      right:16px;
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border:0;
+      border-radius:9px;
+      background:transparent;
+      color:#94a3b8;
+      font-size:1.5rem;
     }
-
-    .hero-content {
-      max-width: 800px;
+    .close-btn:hover{background:#f1f5f9;color:#172033}
+    .modal-title{
+      color:#0b1220;
+      font-size:1.3rem;
+      line-height:1.25;
     }
-
-    .hero-content::before {
-      content: "VEHICLES FOR THE WAY YOU WORK";
-      display: inline-flex;
-      align-items: center;
-      min-height: 29px;
-      padding: 0 12px;
-      margin-bottom: 21px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      color: #b9c7db;
-      background: rgba(255, 255, 255, 0.045);
-      font-size: 0.63rem;
-      font-weight: 800;
-      letter-spacing: 0.13em;
+    .modal-subtitle{
+      margin-top:5px;
+      color:#64748b;
+      font-size:.8rem;
+      line-height:1.6;
     }
-
-    .hero h1 {
-      max-width: 760px;
-      margin: 0 auto 18px;
-      font-size: clamp(2.7rem, 6vw, 4.8rem);
-      line-height: 1.035;
-      letter-spacing: -0.055em;
+    .form-row{display:flex;gap:12px}
+    .form-group{flex:1;margin-top:16px;text-align:left}
+    .form-group label{
+      display:block;
+      margin-bottom:6px;
+      color:#334155;
+      font-size:.73rem;
+      font-weight:800;
     }
-
-    .hero p {
-      max-width: 625px;
-      margin: 0 auto 31px;
-      color: #b5c0d0;
-      font-size: clamp(1rem, 1.8vw, 1.1rem);
-      line-height: 1.78;
-    }
-
-    .hero .btn-primary {
-      padding: 13px 23px;
-      border-radius: 10px;
-      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
-    }
-
-    .hero .btn-primary:hover {
-      transform: translateY(-2px);
-    }
-
-    /* Main vehicle area */
-    .container {
-      max-width: 1240px;
-      padding: 84px 5% 88px;
-    }
-
-    .container h2 {
-      color: var(--ink);
-      font-size: clamp(1.95rem, 4vw, 2.55rem);
-      letter-spacing: -0.045em;
-      line-height: 1.15;
-    }
-
-    .subtitle {
-      max-width: 620px;
-      margin: 10px auto 34px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .filter-buttons {
-      width: fit-content;
-      max-width: 100%;
-      padding: 4px;
-      margin: 0 auto 40px;
-      gap: 3px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: #f5f7fa;
-    }
-
-    .filter-btn {
-      padding: 9px 16px;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      background: transparent;
-      color: #68768a;
-      font-size: 0.84rem;
-    }
-
-    .filter-btn:hover {
-      background: #fff;
-      border-color: transparent;
-      color: var(--primary);
-    }
-
-    .filter-btn.active {
-      background: #fff;
-      color: var(--primary);
-      border-color: #e0e6ee;
-      box-shadow: 0 3px 9px rgba(15, 23, 42, 0.055);
-    }
-
-    /* Vehicle cards */
-    .vehicle-grid {
-      gap: 22px;
-    }
-
-    .card {
-      min-width: 0;
-      border-radius: 16px;
-      border: 1px solid #e3e8ef;
-      box-shadow: var(--shadow-card);
-      background: var(--surface);
-      transition:
-        transform 240ms ease,
-        box-shadow 240ms ease,
-        border-color 240ms ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: #d5dce6;
-      box-shadow: var(--shadow-card-hover);
-    }
-
-    .card-img {
-      height: 212px;
-      background: #eef2f7;
-      transition: transform 500ms ease;
-    }
-
-    .card:hover .card-img {
-      transform: scale(1.025);
-    }
-
-    .card-body {
-      padding: 22px 22px 23px;
-    }
-
-    .card-badge {
-      margin-bottom: 12px;
-      padding: 5px 9px;
-      border: 1px solid #dbe5f5;
-      border-radius: 6px;
-      background: #f1f6ff;
-      color: #3760a9;
-      font-size: 0.62rem;
-      letter-spacing: 0.075em;
-    }
-
-    .card h3 {
-      margin-bottom: 4px;
-      color: var(--ink);
-      font-size: 1.23rem;
-      letter-spacing: -0.025em;
-    }
-
-    .card .type {
-      margin-bottom: 11px;
-      color: #8290a3;
-      font-size: 0.78rem;
-    }
-
-    .card .desc {
-      min-height: 62px;
-      margin-bottom: 18px;
-      color: #526075;
-      font-size: 0.9rem;
-      line-height: 1.65;
-    }
-
-    .card .price {
-      margin-bottom: 13px;
-      color: var(--ink);
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
-    }
-
-    .card .price::first-line {
-      font-weight: 800;
-    }
-
-    .btn-secondary {
-      padding: 11px 13px;
-      border-radius: 9px;
-      border: 1px solid #dfe5ec;
-      background: #f8fafc;
-      color: #172235;
-      font-size: 0.9rem;
-    }
-
-    .btn-secondary:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
-    }
-
-    /* Modals */
-    .modal {
-      background: rgba(7, 14, 26, 0.68);
-    }
-
-    .modal-content {
-      padding: 30px;
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: 17px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
-    }
-
-    .close-btn {
-      width: 34px;
-      height: 34px;
-      top: 14px;
-      right: 15px;
-      border-radius: 50%;
-      transition: background 180ms ease, color 180ms ease;
-    }
-
-    .close-btn:hover {
-      color: var(--ink);
-      background: #f1f4f8;
-    }
-
-    .form-group label {
-      color: #344258;
-      font-size: 0.78rem;
-      letter-spacing: 0.01em;
-    }
-
     .form-group input,
-    .form-group select {
-      min-height: 45px;
-      border-color: #dce3eb;
-      border-radius: 9px;
-      color: #172235;
-      background: #fff;
+    .form-group select{
+      width:100%;
+      min-height:42px;
+      padding:0 11px;
+      border:1px solid #e5eaf1;
+      border-radius:9px;
+      outline:0;
+      background:#fff;
+      color:#0b1220;
+      font-size:.84rem;
     }
-
-    .form-group input::placeholder {
-      color: #9aa6b5;
-    }
-
     .form-group input:focus,
-    .form-group select:focus {
-      border-color: #5b8fe8;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.11);
+    .form-group select:focus{
+      border-color:#60a5fa;
+      box-shadow:0 0 0 4px rgba(37,99,235,.1);
+    }
+    .form-group input[readonly]{background:#f8fafc;color:#475569}
+    .price-summary{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      margin-top:19px;
+      padding:14px;
+      border:1px solid #e5eaf1;
+      border-radius:12px;
+      background:#f8fafc;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .price-summary strong{color:var(--blue);font-size:1.08rem}
+    .payment-title{
+      margin-top:18px;
+      color:#334155;
+      font-size:.74rem;
+      font-weight:800;
+      text-align:left;
+    }
+    .payment-options{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:8px;
+    }
+    .payment-card{position:relative}
+    .payment-card input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+    .payment-label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:43px;
+      border:1.5px solid #e5eaf1;
+      border-radius:10px;
+      font-size:.79rem;
+      font-weight:850;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .esewa-option{color:#60bb46}
+    .khalti-option{color:#5c2d91}
+    .payment-card input:checked + .esewa-option{
+      border-color:#60bb46;
+      background:#f0fdf4;
+    }
+    .payment-card input:checked + .khalti-option{
+      border-color:#5c2d91;
+      background:#faf5ff;
+    }
+    #rental-form .btn-primary{
+      width:100%;
+      margin-top:21px;
+    }
+    .btn-primary{
+      min-height:43px;
+      padding:0 20px;
+      border:0;
+      border-radius:10px;
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      color:#fff;
+      font-size:.82rem;
+      font-weight:850;
+      box-shadow:0 10px 24px rgba(37,99,235,.2);
+      transition:.25s ease;
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 28px rgba(37,99,235,.28);
     }
 
-    .price-summary {
-      border-color: #e1e7ee;
-      border-radius: 10px;
-      background: #f7f9fc;
+    @keyframes heroIn{
+      from{opacity:0;transform:translateY(16px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes cardIn{
+      from{opacity:0;transform:translateY(14px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes modalIn{
+      from{opacity:0;transform:translateY(10px) scale(.975)}
+      to{opacity:1;transform:none}
     }
 
-    .payment-label {
-      border-width: 1px;
-      border-color: #dce3eb;
-      border-radius: 9px;
+    /* =========================================================
+       RESPONSIVE
+    ========================================================== */
+    @media(max-width:950px){
+      .vehicle-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .footer-grid{grid-template-columns:1.4fr 1fr 1fr}
+      .footer-grid > :last-child{grid-column:1/-1}
     }
 
-    .payment-label:hover {
-      background: #fafcff;
+    @media(max-width:700px){
+      .nav-inner{
+        min-height:auto;
+        padding:10px 0;
+        flex-wrap:wrap;
+        gap:8px;
+      }
+      .logo{width:130px}
+      .menu-toggle{display:grid;place-items:center;margin-left:auto}
+      .nav-links{
+        display:none;
+        width:100%;
+        flex-direction:column;
+        align-items:stretch;
+        gap:3px;
+        padding:5px 0 2px;
+      }
+      .nav-links.open{display:flex}
+      .nav-links a{width:100%;min-height:37px}
+      .nav-links .btn-login,
+      .nav-links .btn-signup{margin-left:0}
+
+      .hero{min-height:300px}
+      .hero-content{padding:45px 0 50px}
+      .hero h1{font-size:29px}
+      .hero p{font-size:10px;max-width:330px}
+
+      .vehicles-section{padding:35px 0 58px}
+      .section-heading h2{font-size:21px}
+      .filter-wrap{margin-bottom:25px}
+      .filters{width:min(340px,100%)}
+
+      .vehicle-grid{
+        grid-template-columns:1fr;
+        width:min(100%,360px);
+        margin:auto;
+        gap:25px;
+      }
+      .vehicle-card{border-radius:24px}
+      .vehicle-image{height:220px}
+      .vehicle-info{padding:18px 17px 16px}
+
+      .footer-grid{
+        grid-template-columns:1fr 1fr;
+        gap:28px 22px;
+      }
+      .footer-grid > :first-child{grid-column:1/-1}
+      .footer-grid > :last-child{grid-column:auto}
     }
 
-    /* Footer */
-    .site-footer {
-      margin-top: 22px;
-      padding: 0;
-      background:
-        radial-gradient(circle at 7% 0%, rgba(37, 99, 235, 0.12), transparent 27%),
-        linear-gradient(180deg, #0d1522 0%, #09101b 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    @media(max-width:520px){
+      .nav-inner{width:calc(100% - 22px)}
+      .logo{width:124px}
+      .hero{min-height:280px}
+      .hero h1{font-size:26px}
+      .hero p{font-size:9px}
+      .hero-cta{font-size:8px;padding:8px 14px}
+
+      .vehicles-section{width:calc(100% - 22px)}
+      .section-heading h2{font-size:20px}
+      .section-heading p{font-size:8px}
+      .filter{font-size:8px;padding:0 4px}
+
+      .vehicle-grid{width:min(100%,350px)}
+      .vehicle-image{height:220px}
+      .vehicle-name{font-size:11px}
+      .vehicle-description{font-size:8.5px}
+      .price{font-size:9px}
+      .rent-btn{font-size:8px}
+
+      .footer-inner{width:calc(100% - 22px);padding-top:42px}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .footer-brand{grid-column:1/-1}
+      .footer-grid > :last-child{grid-column:1/-1}
+
+      .form-row{flex-direction:column;gap:0}
+      .modal-content{padding:24px 18px}
+      .payment-options{grid-template-columns:1fr}
     }
 
-    .footer-container {
-      width: min(1180px, 90%);
-      padding: 58px 0 44px;
-      gap: 45px;
-      border-bottom-color: rgba(255, 255, 255, 0.075);
-    }
-
-    .footer-brand {
-      display: inline-flex;
-      align-items: center;
-      width: 146px;
-      margin-bottom: 15px;
-      line-height: 0;
-    }
-
-    .footer-logo-image {
-      display: block;
-      width: 146px;
-      height: auto;
-    }
-
-    .footer-desc {
-      max-width: 350px;
-      color: #8996a8;
-      font-size: 0.83rem;
-      line-height: 1.8;
-    }
-
-    .payment-badges .badge {
-      padding: 5px 9px;
-      border-radius: 7px;
-      border-color: rgba(255, 255, 255, 0.09);
-      background: rgba(255, 255, 255, 0.035);
-      color: #b4c0cf;
-    }
-
-    .footer-col h4 {
-      margin-bottom: 15px;
-      color: #e2e8f0;
-      font-size: 0.68rem;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-    }
-
-    .footer-links li {
-      margin-bottom: 9px;
-    }
-
-    .footer-links a {
-      color: #8793a5;
-      font-size: 0.82rem;
-      transition: color 180ms ease, transform 180ms ease;
-    }
-
-    .footer-links a:hover {
-      color: #fff;
-      transform: translateX(2px);
-    }
-
-    .contact-item {
-      margin-bottom: 9px;
-      color: #8d99aa;
-      font-size: 0.82rem;
-    }
-
-    .footer-bottom {
-      width: min(1180px, 90%);
-      padding: 18px 0 24px;
-      color: #5e6b7d;
-      text-align: left;
-      font-size: 0.7rem;
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .navbar {
-        padding: 10px 5%;
-      }
-
-      .logo,
-      .logo-image {
-        width: 140px;
-      }
-
-      .nav-links {
-        gap: 5px;
-        padding-top: 10px;
-      }
-
-      .nav-links a {
-        width: 100%;
-        text-align: center;
-      }
-
-      .btn-login,
-      .btn-signup {
-        width: 100%;
-      }
-
-      .hero {
-        min-height: 510px;
-        padding: 74px 6% 78px;
-      }
-
-      .hero-content::before {
-        font-size: 0.58rem;
-      }
-
-      .hero h1 {
-        font-size: clamp(2.25rem, 10vw, 3.2rem);
-      }
-
-      .container {
-        padding: 65px 5% 70px;
-      }
-
-      .filter-buttons {
-        width: 100%;
-      }
-
-      .filter-btn {
-        flex: 1;
-      }
-
-      .card-img {
-        height: 220px;
-      }
-
-      .modal-content {
-        padding: 27px 20px 22px;
-      }
-
-      .footer-container {
-        width: 90%;
-        padding: 48px 0 34px;
-      }
-
-      .footer-bottom {
-        width: 90%;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .hero {
-        padding-top: 62px;
-      }
-
-      .hero-content::before {
-        max-width: 100%;
-        text-align: center;
-        justify-content: center;
-      }
-
-      .hero h1 {
-        font-size: 2.25rem;
-      }
-
-      .hero p {
-        font-size: 0.94rem;
-      }
-
-      .filter-buttons {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3px;
-      }
-
-      .filter-btn {
-        width: 100%;
-      }
-
-      .card-img {
-        height: 205px;
-      }
-
-      .splash-logo {
-        width: min(300px, 78vw);
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{
+        animation-duration:.001ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.001ms!important;
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .splash-logo,
-      .card,
-      .card-img,
-      .nav-links a,
-      .btn-primary,
-      .btn-secondary {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
+    /* Readable text sizing */
+    .nav-links a{font-size:1rem}
+    .eyebrow{font-size:.75rem}
+    .hero p{font-size:1rem}
+    .hero-cta{font-size:.9rem}
+    .section-heading p{font-size:.85rem}
+    .filter{font-size:.8rem}
+    .tag{font-size:.7rem}
+    .vehicle-name{font-size:1.05rem}
+    .vehicle-type{font-size:.85rem}
+    .vehicle-description{font-size:.85rem}
+    .price{font-size:.95rem}
+    .rent-btn{font-size:.85rem}
+    .footer-brand p,
+    .footer-links a,
+    .contact-item{font-size:.85rem}
+    .footer-title{font-size:.9rem}
+    .footer-bottom{font-size:.75rem}
 
+    @media(max-width:700px){
+      .hero p{font-size:.95rem}
+      .section-heading p{font-size:.82rem}
+      .vehicle-name{font-size:1.05rem}
+      .vehicle-description{font-size:.85rem}
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- =========================
-       SPLASH SCREEN
-  ========================== -->
-  <div id="splash-screen" aria-label="FlexRide introduction">
-    <div>
-      <h1 class="splash-brand">
-        Flex<span>Ride</span>
-      </h1>
-      <p class="splash-tagline">Drive. Earn. Succeed.</p>
-    </div>
-  </div>
-
-
-  <!-- =========================
-       NAVIGATION
-  ========================== -->
-  <nav class="navbar">
-
-    <a href="index.html" class="logo">
-      Flex<span>Ride</span>
-    </a>
-
-    <button
-      class="menu-toggle"
-      id="menu-toggle"
-      type="button"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-    >
-      ☰
-    </button>
-
-    <ul class="nav-links" id="nav-links">
-      <li>
-        <a href="index.html" class="active">Home</a>
-      </li>
-
-      <li>
-        <a href="blog.html">Blog</a>
-      </li>
-
-      <li>
-        <a href="reviews.html">Reviews</a>
-      </li>
-
-      <li>
-        <a href="#login" class="btn-login" id="login-btn">
-          Log In
-        </a>
-      </li>
-
-      <li>
-        <a href="signup.html" class="btn-signup">
-          Sign Up
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-
-  <!-- =========================
-       LOGIN MODAL
-  ========================== -->
-  <div
-    id="login-modal"
-    class="modal login-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="login-title"
-  >
-    <div class="modal-content">
-
-      <button
-        type="button"
-        class="close-btn"
-        id="login-close"
-        aria-label="Close login"
-      >
-        &times;
-      </button>
-
-      <h3
-        id="login-title"
-        style="font-size: 1.4rem; color: var(--text-dark);"
-      >
-        Welcome back
-      </h3>
-
-      <p
-        class="subtitle"
-        style="text-align: left; margin: 4px 0 0;"
-      >
-        Sign in to manage your FlexRide rentals.
-      </p>
-
-      <form id="login-form">
-
-        <div class="form-group">
-          <label for="login-email">
-            Email
-          </label>
-
-          <input
-            id="login-email"
-            type="email"
-            required
-            autocomplete="email"
-            placeholder="you@example.com"
-          >
-        </div>
-
-        <div class="form-group">
-          <label for="login-password">
-            Password
-          </label>
-
-          <input
-            id="login-password"
-            type="password"
-            required
-            minlength="4"
-            autocomplete="current-password"
-            placeholder="Your password"
-          >
-        </div>
-
-        <p
-          class="login-error"
-          id="login-error"
-          role="alert"
-        >
-          Please enter valid login details.
-        </p>
-
-        <p
-          class="login-success"
-          id="login-success"
-        >
-          Login successful.
-        </p>
-
-        <button
-          type="submit"
-          class="btn-primary"
-        >
-          Log In
-        </button>
-      </form>
-
-      <button
-        class="guest-link"
-        id="guest-login"
-        type="button"
-      >
-        Continue as Guest
-      </button>
-
-    </div>
-  </div>
-
-
-  <!-- =========================
-       HERO
-  ========================== -->
-  <header class="hero">
-
-    <div class="hero-content">
-
-      <h1>
-        Have a License, But No Vehicle?
-      </h1>
-
-      <p>
-        Welcome to the best and affordable vehicle rental
-        provider in the market.
-      </p>
-
-      <a
-        href="#vehicles"
-        class="btn-primary"
-      >
-        Choose Your Vehicle
+  <!-- =======================================================
+       NAVIGATION — same structure/style family as other pages
+  ======================================================== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="logo" href="index.html" aria-label="FlexRide home">
+        <img src="logo.png" alt="FlexRide">
       </a>
 
-    </div>
+      <button class="menu-toggle" id="menu-toggle" type="button"
+              aria-label="Open navigation menu"
+              aria-expanded="false"
+              aria-controls="nav-links">☰</button>
 
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+          <li><a href="login.html" class="btn-login">Log In</a></li>
+          <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-
-  <!-- =========================
-       VEHICLES
-  ========================== -->
+  <!-- HERO -->
   <main>
-
-    <section
-      id="vehicles"
-      class="container"
-    >
-
-      <h2>
-        Select Your Work Type
-      </h2>
-
-      <p class="subtitle">
-        Filter vehicles engineered for your specific job demands.
-      </p>
-
-
-      <!-- FILTER BUTTONS -->
-      <div class="filter-buttons">
-
-        <button
-          class="filter-btn active"
-          data-filter="all"
-          type="button"
-        >
-          All Vehicles
-        </button>
-
-        <button
-          class="filter-btn"
-          data-filter="delivery"
-          type="button"
-        >
-          Food / Parcel Delivery
-        </button>
-
-        <button
-          class="filter-btn"
-          data-filter="rideshare"
-          type="button"
-        >
-          Ride-Sharing
-        </button>
-
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Vehicle Rental Platform</div>
+        <h1>Have a License, But No<br>Vehicle?</h1>
+        <p>
+          Welcome to the best and affordable vehicle rental platform
+          for drivers and delivery partners.
+        </p>
+        <a class="hero-cta" href="#vehicles">Choose Your Vehicle</a>
       </div>
-
-
-      <!-- VEHICLE GRID -->
-      <div class="vehicle-grid">
-
-
-        <!-- VEHICLE 1 -->
-        <article
-          class="card"
-          data-category="delivery"
-        >
-
-          <img
-            class="card-img"
-            src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80"
-            alt="City Scooter 125cc"
-            loading="lazy"
-          >
-
-          <div class="card-body">
-
-            <div class="card-badge">
-              Delivery Specialized
-            </div>
-
-            <h3>
-              City Scooter 125cc
-            </h3>
-
-            <p class="type">
-              Type: Scooter
-            </p>
-
-            <p class="desc">
-              Lightweight, agile, and fuel-efficient.
-              Comes with a rear cargo box setup.
-            </p>
-
-            <div class="price">
-              Rs. 2,000 / day
-            </div>
-
-            <button
-              class="btn-secondary rent-btn"
-              data-vehicle="City Scooter 125cc"
-              data-price="2000"
-              type="button"
-            >
-              Rent Now
-            </button>
-
-          </div>
-
-        </article>
-
-
-        <!-- VEHICLE 2 -->
-        <article
-          class="card"
-          data-category="rideshare"
-        >
-
-          <img
-            class="card-img"
-            src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80"
-            alt="Sedan Comfort"
-            loading="lazy"
-          >
-
-          <div class="card-body">
-
-            <div class="card-badge">
-              Ride-Share Approved
-            </div>
-
-            <h3>
-              Sedan Comfort
-            </h3>
-
-            <p class="type">
-              Type: Car
-            </p>
-
-            <p class="desc">
-              Spacious 4-door sedan meeting all major
-              ride-sharing app standards.
-            </p>
-
-            <div class="price">
-              Rs. 3,500 / day
-            </div>
-
-            <button
-              class="btn-secondary rent-btn"
-              data-vehicle="Sedan Comfort"
-              data-price="3500"
-              type="button"
-            >
-              Rent Now
-            </button>
-
-          </div>
-
-        </article>
-
-
-        <!-- VEHICLE 3 -->
-        <article
-          class="card"
-          data-category="rideshare delivery"
-        >
-
-          <img
-            class="card-img"
-            src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80"
-            alt="Standard Commuter Bike"
-            loading="lazy"
-          >
-
-          <div class="card-body">
-
-            <div class="card-badge">
-              Multi-Purpose
-            </div>
-
-            <h3>
-              Standard Commuter Bike
-            </h3>
-
-            <p class="type">
-              Type: Motorcycle
-            </p>
-
-            <p class="desc">
-              Great for quick passenger taxi rides
-              or fast courier deliveries.
-            </p>
-
-            <div class="price">
-              Rs. 1,800 / day
-            </div>
-
-            <button
-              class="btn-secondary rent-btn"
-              data-vehicle="Standard Commuter Bike"
-              data-price="1800"
-              type="button"
-            >
-              Rent Now
-            </button>
-
-          </div>
-
-        </article>
-
-
-        <!-- VEHICLE 4 -->
-        <article
-          class="card"
-          data-category="delivery"
-        >
-
-          <img
-            class="card-img"
-            src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80"
-            alt="Compact Van 1.5T"
-            loading="lazy"
-          >
-
-          <div class="card-body">
-
-            <div class="card-badge">
-              Delivery Specialized
-            </div>
-
-            <h3>
-              Compact Van 1.5T
-            </h3>
-
-            <p class="type">
-              Type: Van
-            </p>
-
-            <p class="desc">
-              Ideal for bulk deliveries, with ample
-              cargo space and easy maneuverability.
-            </p>
-
-            <div class="price">
-              Rs. 5,000 / day
-            </div>
-
-            <button
-              class="btn-secondary rent-btn"
-              data-vehicle="Compact Van 1.5T"
-              data-price="5000"
-              type="button"
-            >
-              Rent Now
-            </button>
-
-          </div>
-
-        </article>
-
-
-        <!-- VEHICLE 5 -->
-        <article
-          class="card"
-          data-category="rideshare"
-        >
-
-          <img
-            class="card-img"
-            src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80"
-            alt="Luxury SUV"
-            loading="lazy"
-          >
-
-          <div class="card-body">
-
-            <div class="card-badge">
-              Ride-Share Approved
-            </div>
-
-            <h3>
-              Luxury SUV
-            </h3>
-
-            <p class="type">
-              Type: SUV
-            </p>
-
-            <p class="desc">
-              Premium SUV for high-end ride-sharing
-              services, ensuring comfort and style.
-            </p>
-
-            <div class="price">
-              Rs. 7,000 / day
-            </div>
-
-            <button
-              class="btn-secondary rent-btn"
-              data-vehicle="Luxury SUV"
-              data-price="7000"
-              type="button"
-            >
-              Rent Now
-            </button>
-
-          </div>
-
-        </article>
-
-      </div>
-
     </section>
 
+    <!-- VEHICLES -->
+    <section class="vehicles-section" id="vehicles">
+      <div class="section-heading">
+        <h2>Select Your Vehicle Type</h2>
+        <p>Filter vehicles engineered for your specific job demands.</p>
+      </div>
+
+      <div class="filter-wrap">
+        <div class="filters" role="tablist" aria-label="Vehicle categories">
+          <button class="filter active" data-filter="all" type="button">All Vehicles</button>
+          <button class="filter" data-filter="delivery" type="button">Food / Parcel Delivery</button>
+          <button class="filter" data-filter="ride" type="button">Ride-Sharing</button>
+        </div>
+      </div>
+
+      <div class="vehicle-grid">
+
+        <!-- VEHICLE 1 -->
+        <article class="vehicle-card" data-category="delivery">
+          <div class="vehicle-image">
+            <img src="froza.fyp 1.png" alt="Honda Froza 125" loading="lazy">
+          </div>
+          <div class="vehicle-info">
+            <span class="tag">Delivery Specialized</span>
+            <h3 class="vehicle-name">Honda Froza 125</h3>
+            <p class="vehicle-type">Type: Scooter</p>
+            <p class="vehicle-description">
+              Lightweight, agile, and fuel-efficient. Comes with a rear cargo box setup.
+            </p>
+            <div class="price-row">
+              <span class="price">Rs. 1200 / day</span>
+            </div>
+            <button class="rent-btn"
+                    data-name="Honda Froza 125"
+                    data-price="1200"
+                    type="button">Rent Now</button>
+          </div>
+        </article>
+
+        <!-- VEHICLE 2 -->
+        <article class="vehicle-card" data-category="ride">
+          <div class="vehicle-image">
+            <img src="ecosport.fyp 1.png" alt="Ford Ecosport" loading="lazy">
+          </div>
+          <div class="vehicle-info">
+            <span class="tag">Ride-Share Approved</span>
+            <h3 class="vehicle-name">Ford Ecosport</h3>
+            <p class="vehicle-type">Type: Compact SUV</p>
+            <p class="vehicle-description">
+              Spacious 4-door SUV meeting all major ride-sharing app standards.
+            </p>
+            <div class="price-row">
+              <span class="price">Rs. 4500 / day</span>
+            </div>
+            <button class="rent-btn"
+                    data-name="Ford Ecosport"
+                    data-price="4500"
+                    type="button">Rent Now</button>
+          </div>
+        </article>
+
+        <!-- VEHICLE 3 -->
+        <article class="vehicle-card" data-category="delivery ride">
+          <div class="vehicle-image">
+            <img src="shine.fyp 1.png" alt="Honda Shine BS6" loading="lazy">
+          </div>
+          <div class="vehicle-info">
+            <span class="tag">Multi-Purpose</span>
+            <h3 class="vehicle-name">Honda Shine BS6</h3>
+            <p class="vehicle-type">Type: Motorcycle</p>
+            <p class="vehicle-description">
+              Great for quick passenger taxi rides or fast courier deliveries.
+            </p>
+            <div class="price-row">
+              <span class="price">Rs. 1800 / day</span>
+            </div>
+            <button class="rent-btn"
+                    data-name="Honda Shine BS6"
+                    data-price="1800"
+                    type="button">Rent Now</button>
+          </div>
+        </article>
+
+        <!-- VEHICLE 4 -->
+        <article class="vehicle-card" data-category="ride">
+          <div class="vehicle-image">
+            <img src="seltos.fyp 1.png" alt="Kia Seltos" loading="lazy">
+          </div>
+          <div class="vehicle-info">
+            <span class="tag">Ride-Share Approved</span>
+            <h3 class="vehicle-name">Kia Seltos</h3>
+            <p class="vehicle-type">Type: SUV</p>
+            <p class="vehicle-description">
+              Premium SUV for high-end ride-sharing services, ensuring comfort and style.
+            </p>
+            <div class="price-row">
+              <span class="price">Rs. 8000 / day</span>
+            </div>
+            <button class="rent-btn"
+                    data-name="Kia Seltos"
+                    data-price="8000"
+                    type="button">Rent Now</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
   </main>
 
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
 
-  <!-- =========================
+        <div class="footer-brand">
+          <img src="flex.png" alt="FlexRide">
+          <p>
+            Nepal's trusted flexible vehicle rental platform for
+            ride-sharing drivers and delivery partners.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-title">Navigation</h3>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="blog.html">Blog &amp; Insights</a>
+            <a href="reviews.html">Driver Reviews</a>
+            <a href="#vehicles">Available Vehicles</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-title">Drivers</h3>
+          <div class="footer-links">
+            <a href="signup.html">Become a Partner</a>
+            <a href="login.html">Driver Portal</a>
+            <a href="#">Rental Terms &amp; Policies</a>
+            <a href="#">FAQs</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-title">Contact Us</h3>
+          <div class="contact-item">📍 Kathmandu, Nepal</div>
+          <div class="contact-item">📞 +977-1-4XXXXXX</div>
+          <div class="contact-item">✉ support@flexride.com.np</div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 FlexRide Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- =======================================================
        RENTAL MODAL
-  ========================== -->
-  <div
-    id="booking-modal"
-    class="modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="booking-title"
-  >
-
+       PAYMENT SYSTEM / FORM FLOW KEPT THE SAME
+  ======================================================== -->
+  <div id="booking-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="booking-title">
     <div class="modal-content">
 
-      <button
-        type="button"
-        class="close-btn"
-        id="booking-close"
-        aria-label="Close rental application"
-      >
-        &times;
-      </button>
+      <button type="button"
+              class="close-btn"
+              id="booking-close"
+              aria-label="Close rental application">&times;</button>
 
-      <h3
-        id="booking-title"
-        style="font-size: 1.4rem; color: var(--text-dark);"
-      >
-        Complete Rental Application
-      </h3>
-
+      <h3 id="booking-title" class="modal-title">Complete Rental Application</h3>
+      <p class="modal-subtitle">
+        Provide the details below to prepare your rental.
+      </p>
 
       <form id="rental-form">
 
-        <!-- SELECTED VEHICLE -->
         <div class="form-group">
-
-          <label for="selected-vehicle">
-            Selected Vehicle
-          </label>
-
-          <input
-            type="text"
-            id="selected-vehicle"
-            readonly
-          >
-
+          <label for="selected-vehicle">Selected Vehicle</label>
+          <input type="text" id="selected-vehicle" readonly>
         </div>
 
-
-        <!-- NAME + PHONE -->
         <div class="form-row">
-
           <div class="form-group">
-
-            <label for="full-name">
-              Full Name
-            </label>
-
-            <input
-              type="text"
-              id="full-name"
-              required
-              autocomplete="name"
-              placeholder="e.g. Ram Shrestha"
-            >
-
+            <label for="full-name">Full Name</label>
+            <input type="text"
+                   id="full-name"
+                   required
+                   autocomplete="name"
+                   placeholder="e.g. Ram Shrestha">
           </div>
 
-
           <div class="form-group">
-
-            <label for="phone">
-              Phone Number
-            </label>
-
-            <input
-              type="tel"
-              id="phone"
-              required
-              autocomplete="tel"
-              placeholder="98XXXXXXXX"
-              pattern="[0-9+\-\s]{7,15}"
-            >
-
+            <label for="phone">Phone Number</label>
+            <input type="tel"
+                   id="phone"
+                   required
+                   autocomplete="tel"
+                   placeholder="98XXXXXXXX"
+                   pattern="[0-9+\-\s]{7,15}">
           </div>
-
         </div>
 
-
-        <!-- LICENSE + PLATFORM -->
         <div class="form-row">
-
           <div class="form-group">
-
-            <label for="license">
-              Driver's License No.
-            </label>
-
-            <input
-              type="text"
-              id="license"
-              required
-              placeholder="01-06-XXXXXXXX"
-            >
-
+            <label for="license">Driver's License No.</label>
+            <input type="text"
+                   id="license"
+                   required
+                   placeholder="01-06-XXXXXXXX">
           </div>
 
-
           <div class="form-group">
-
-            <label for="platform">
-              Gig Platform
-            </label>
-
-            <input
-              type="text"
-              id="platform"
-              required
-              placeholder="Pathao, InDrive, etc."
-            >
-
+            <label for="platform">Gig Platform</label>
+            <input type="text"
+                   id="platform"
+                   required
+                   placeholder="Pathao, InDrive, etc.">
           </div>
-
         </div>
 
-
-        <!-- RENTAL DAYS -->
         <div class="form-group">
-
-          <label for="rental-days">
-            Rental Duration (Days)
-          </label>
-
-          <input
-            type="number"
-            id="rental-days"
-            min="1"
-            max="30"
-            value="1"
-            required
-          >
-
+          <label for="rental-days">Rental Duration (Days)</label>
+          <input type="number"
+                 id="rental-days"
+                 min="1"
+                 max="30"
+                 value="1"
+                 required>
         </div>
 
-
-        <!-- PRICE -->
         <div class="price-summary">
-
-          <span style="color: var(--text-dark); font-size: 1rem;">
-            Total Amount
-          </span>
-
-          <span id="total-price">
-            Rs. 0
-          </span>
-
+          <span>Total Amount</span>
+          <strong id="total-price">Rs. 0</strong>
         </div>
 
-
-        <!-- PAYMENT -->
-        <p class="payment-title">
-          Select Payment Method
-        </p>
+        <p class="payment-title">Select Payment Method</p>
 
         <div class="payment-options">
-
           <div class="payment-card">
-
-            <input
-              type="radio"
-              name="payment-method"
-              id="esewa"
-              value="eSewa"
-              required
-              checked
-            >
-
-            <label
-              for="esewa"
-              class="payment-label esewa-option"
-            >
-              eSewa
-            </label>
-
+            <input type="radio"
+                   name="payment-method"
+                   id="esewa"
+                   value="eSewa"
+                   required
+                   checked>
+            <label for="esewa" class="payment-label esewa-option">eSewa</label>
           </div>
 
-
           <div class="payment-card">
-
-            <input
-              type="radio"
-              name="payment-method"
-              id="khalti"
-              value="Khalti"
-              required
-            >
-
-            <label
-              for="khalti"
-              class="payment-label khalti-option"
-            >
-              Khalti
-            </label>
-
+            <input type="radio"
+                   name="payment-method"
+                   id="khalti"
+                   value="Khalti"
+                   required>
+            <label for="khalti" class="payment-label khalti-option">Khalti</label>
           </div>
-
         </div>
 
-
-        <!-- SUBMIT -->
-        <button
-          type="submit"
-          class="btn-primary"
-          id="submit-btn"
-        >
-          Proceed to Pay
-        </button>
+        <button type="submit"
+                class="btn-primary"
+                id="submit-btn">Proceed to Pay</button>
 
       </form>
-
     </div>
-
   </div>
 
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
-  <footer class="site-footer">
-
-    <div class="footer-container">
-
-      <!-- BRAND -->
-      <div class="footer-col">
-
-        <div class="footer-logo">
-          Flex<span>Ride</span>
-        </div>
-
-        <p class="footer-desc">
-          Nepal's trusted flexible vehicle rental platform
-          for ride-sharing drivers and delivery partners.
-        </p>
-
-        <div class="payment-badges">
-          <span class="badge">
-            eSewa Accepted
-          </span>
-
-          <span class="badge">
-            Khalti Accepted
-          </span>
-        </div>
-
-      </div>
-
-
-      <!-- NAVIGATION -->
-      <div class="footer-col">
-
-        <h4>
-          Navigation
-        </h4>
-
-        <ul class="footer-links">
-
-          <li>
-            <a href="index.html">
-              Home
-            </a>
-          </li>
-
-          <li>
-            <a href="blog.html">
-              Blog & Insights
-            </a>
-          </li>
-
-          <li>
-            <a href="reviews.html">
-              Driver Reviews
-            </a>
-          </li>
-
-          <li>
-            <a href="#vehicles">
-              Available Vehicles
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-
-      <!-- DRIVERS -->
-      <div class="footer-col">
-
-        <h4>
-          Drivers
-        </h4>
-
-        <ul class="footer-links">
-
-          <li>
-            <a href="signup.html">
-              Become a Partner
-            </a>
-          </li>
-
-          <li>
-            <a href="#login">
-              Driver Portal
-            </a>
-          </li>
-
-          <li>
-            <a href="#terms">
-              Rental Terms & Policy
-            </a>
-          </li>
-
-          <li>
-            <a href="#faq">
-              FAQs
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-
-      <!-- CONTACT -->
-      <div class="footer-col">
-
-        <h4>
-          Contact Us
-        </h4>
-
-        <p class="contact-item">
-          📍 Kathmandu, Nepal
-        </p>
-
-        <p class="contact-item">
-          📞 +977 1-4XXXXXX
-        </p>
-
-        <p class="contact-item">
-          ✉️ support@flexride.com.np
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-      <p>
-        &copy; 2026 FlexRide Inc. All rights reserved.
-      </p>
-
-    </div>
-
-  </footer>
-
-
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const $ = (selector, parent = document) => parent.querySelector(selector);
+      const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
 
-      /* =================================
-         ELEMENTS
-      ================================== */
+      const menuToggle = $("#menu-toggle");
+      const navLinks = $("#nav-links");
 
-      const splashScreen =
-        document.getElementById("splash-screen");
+      const bookingModal = $("#booking-modal");
+      const bookingClose = $("#booking-close");
+      const rentalForm = $("#rental-form");
+      const selectedVehicleInput = $("#selected-vehicle");
+      const rentalDaysInput = $("#rental-days");
+      const totalPriceDisplay = $("#total-price");
 
-      const menuToggle =
-        document.getElementById("menu-toggle");
-
-      const navLinks =
-        document.getElementById("nav-links");
-
-      const loginBtn =
-        document.getElementById("login-btn");
-
-      const loginModal =
-        document.getElementById("login-modal");
-
-      const loginClose =
-        document.getElementById("login-close");
-
-      const loginForm =
-        document.getElementById("login-form");
-
-      const guestLogin =
-        document.getElementById("guest-login");
-
-      const loginError =
-        document.getElementById("login-error");
-
-      const loginSuccess =
-        document.getElementById("login-success");
-
-      const bookingModal =
-        document.getElementById("booking-modal");
-
-      const bookingClose =
-        document.getElementById("booking-close");
-
-      const rentalForm =
-        document.getElementById("rental-form");
-
-      const selectedVehicleInput =
-        document.getElementById("selected-vehicle");
-
-      const rentalDaysInput =
-        document.getElementById("rental-days");
-
-      const totalPriceDisplay =
-        document.getElementById("total-price");
-
-      const filterButtons =
-        document.querySelectorAll(".filter-btn");
-
-      const vehicleCards =
-        document.querySelectorAll(".card");
-
-      const rentButtons =
-        document.querySelectorAll(".rent-btn");
-
-
-      /* =================================
-         SPLASH SCREEN
-      ================================== */
-
-      setTimeout(() => {
-
-        splashScreen.classList.add("is-hidden");
-
-        setTimeout(() => {
-          splashScreen.style.display = "none";
-        }, 600);
-
-      }, 1800);
-
-
-      /* =================================
-         MOBILE MENU
-      ================================== */
-
-      menuToggle.addEventListener("click", () => {
-
-        const isOpen =
-          navLinks.classList.toggle("open");
-
-        menuToggle.setAttribute(
-          "aria-expanded",
-          isOpen
-        );
-
-        menuToggle.setAttribute(
-          "aria-label",
-          isOpen
-            ? "Close navigation menu"
-            : "Open navigation menu"
-        );
-
-      });
-
-
-      /* Close mobile menu when a link is clicked */
-
-      navLinks.querySelectorAll("a").forEach(link => {
-
-        link.addEventListener("click", () => {
-
-          navLinks.classList.remove("open");
-
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          menuToggle.setAttribute(
-            "aria-label",
-            "Open navigation menu"
-          );
-
-        });
-
-      });
-
-
-      /* =================================
-         FILTER VEHICLES
-      ================================== */
-
-      filterButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-          filterButtons.forEach(btn => {
-            btn.classList.remove("active");
-          });
-
-          button.classList.add("active");
-
-          const filterValue =
-            button.getAttribute("data-filter");
-
-          vehicleCards.forEach(card => {
-
-            const categories =
-              card.getAttribute("data-category") || "";
-
-            const shouldShow =
-              filterValue === "all" ||
-              categories.split(" ").includes(filterValue);
-
-            card.style.display =
-              shouldShow ? "flex" : "none";
-
-          });
-
-        });
-
-      });
-
-
-      /* =================================
-         BOOKING MODAL
-      ================================== */
+      const filterButtons = $$(".filter");
+      const vehicleCards = $$(".vehicle-card");
+      const rentButtons = $$(".rent-btn");
 
       let currentDailyRate = 0;
 
+      /* Mobile navigation */
+      menuToggle.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute(
+          "aria-label",
+          isOpen ? "Close navigation menu" : "Open navigation menu"
+        );
+        menuToggle.textContent = isOpen ? "×" : "☰";
+      });
 
+      $$("#nav-links a").forEach(link => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open navigation menu");
+          menuToggle.textContent = "☰";
+        });
+      });
+
+      /* Vehicle filtering */
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach(item => item.classList.remove("active"));
+          button.classList.add("active");
+
+          const filter = button.dataset.filter;
+
+          vehicleCards.forEach(card => {
+            const categories = (card.dataset.category || "").split(/\s+/);
+            const visible =
+              filter === "all" || categories.includes(filter);
+
+            card.style.display = visible ? "block" : "none";
+
+            if (visible) {
+              card.animate(
+                [
+                  { opacity: .35, transform: "translateY(8px)" },
+                  { opacity: 1, transform: "translateY(0)" }
+                ],
+                {
+                  duration: 240,
+                  easing: "cubic-bezier(.2,.8,.2,1)"
+                }
+              );
+            }
+          });
+        });
+      });
+
+      /* Booking calculation — same rental/payment behavior */
       function updateCalculation() {
+        let days = Number.parseInt(rentalDaysInput.value, 10);
 
-        let days =
-          parseInt(rentalDaysInput.value, 10);
+        if (!Number.isFinite(days) || days < 1) days = 1;
+        if (days > 30) days = 30;
 
-        if (isNaN(days) || days < 1) {
-          days = 1;
-          rentalDaysInput.value = 1;
-        }
+        rentalDaysInput.value = days;
 
-        if (days > 30) {
-          days = 30;
-          rentalDaysInput.value = 30;
-        }
-
-        const total =
-          currentDailyRate * days;
-
+        const total = currentDailyRate * days;
         totalPriceDisplay.textContent =
           `Rs. ${total.toLocaleString("en-IN")}`;
-
       }
 
-
-      /* Open booking modal */
-
       rentButtons.forEach(button => {
-
         button.addEventListener("click", () => {
-
-          const vehicleName =
-            button.getAttribute("data-vehicle");
-
-          const price =
-            Number(button.getAttribute("data-price"));
-
-          currentDailyRate = price;
-
-          selectedVehicleInput.value =
-            vehicleName;
-
+          currentDailyRate = Number(button.dataset.price) || 0;
+          selectedVehicleInput.value = button.dataset.name || "";
           rentalDaysInput.value = 1;
-
           updateCalculation();
 
           bookingModal.classList.add("show");
-
           document.body.classList.add("no-scroll");
 
-          setTimeout(() => {
-            document.getElementById("full-name").focus();
-          }, 100);
-
+          setTimeout(() => $("#full-name")?.focus(), 100);
         });
-
       });
 
-
-      /* Update price */
-
-      rentalDaysInput.addEventListener(
-        "input",
-        updateCalculation
-      );
-
-
-      /* Close booking modal */
-
-      bookingClose.addEventListener(
-        "click",
-        closeBookingModal
-      );
-
+      rentalDaysInput.addEventListener("input", updateCalculation);
 
       function closeBookingModal() {
-
         bookingModal.classList.remove("show");
-
         document.body.classList.remove("no-scroll");
-
       }
 
+      bookingClose.addEventListener("click", closeBookingModal);
 
-      /* =================================
-         LOGIN MODAL
-      ================================== */
-
-      loginBtn.addEventListener("click", event => {
-
+      /* Rental submission — unchanged payment demonstration flow */
+      rentalForm.addEventListener("submit", event => {
         event.preventDefault();
 
-        loginModal.classList.add("show");
+        const paymentMethod =
+          $('input[name="payment-method"]:checked');
 
-        document.body.classList.add("no-scroll");
+        if (!paymentMethod) {
+          alert("Please select a payment method.");
+          return;
+        }
 
-        setTimeout(() => {
-          document.getElementById("login-email").focus();
-        }, 100);
-
-      });
-
-
-      loginClose.addEventListener(
-        "click",
-        closeLoginModal
-      );
-
-
-      function closeLoginModal() {
-
-        loginModal.classList.remove("show");
-
-        document.body.classList.remove("no-scroll");
-
-        loginError.style.display = "none";
-
-        loginSuccess.style.display = "none";
-
-      }
-
-
-      /* Guest login */
-
-      guestLogin.addEventListener("click", () => {
-
-        closeLoginModal();
+        const days = Number(rentalDaysInput.value) || 1;
+        const totalAmount = currentDailyRate * days;
 
         alert(
-          "You are continuing as a guest."
+          `Payment Gateway: ${paymentMethod.value}\n\n` +
+          `Vehicle: ${selectedVehicleInput.value}\n` +
+          `Duration: ${days} day(s)\n` +
+          `Total: Rs. ${totalAmount.toLocaleString("en-IN")}\n\n` +
+          `This is a demo payment flow.`
         );
 
+        closeBookingModal();
+        rentalForm.reset();
+        selectedVehicleInput.value = "";
+        currentDailyRate = 0;
+        totalPriceDisplay.textContent = "Rs. 0";
       });
 
-
-      /* Login form */
-
-      loginForm.addEventListener(
-        "submit",
-        event => {
-
-          event.preventDefault();
-
-          const email =
-            document.getElementById("login-email").value.trim();
-
-          const password =
-            document.getElementById("login-password").value;
-
-          loginError.style.display = "none";
-          loginSuccess.style.display = "none";
-
-
-          /*
-             DEMO LOGIN
-
-             This is frontend-only.
-             Replace this with your real backend
-             authentication when the website is deployed.
-          */
-
-          if (!email || password.length < 4) {
-
-            loginError.style.display = "block";
-
-            return;
-          }
-
-
-          loginSuccess.style.display = "block";
-
-          setTimeout(() => {
-
-            closeLoginModal();
-
-            loginForm.reset();
-
-            alert(
-              `Welcome back! Logged in as ${email}.`
-            );
-
-          }, 800);
-
-        }
-      );
-
-
-      /* =================================
-         RENTAL FORM
-      ================================== */
-
-      rentalForm.addEventListener(
-        "submit",
-        event => {
-
-          event.preventDefault();
-
-          const paymentMethod =
-            document.querySelector(
-              'input[name="payment-method"]:checked'
-            );
-
-          if (!paymentMethod) {
-
-            alert(
-              "Please select a payment method."
-            );
-
-            return;
-          }
-
-
-          const days =
-            Number(rentalDaysInput.value);
-
-          const totalAmount =
-            currentDailyRate * days;
-
-
-          /*
-             IMPORTANT:
-             This is still a DEMO payment flow.
-
-             A real eSewa/Khalti transaction requires
-             backend integration and payment credentials.
-          */
-
-          alert(
-            `Payment Gateway: ${paymentMethod.value}\n\n` +
-            `Vehicle: ${selectedVehicleInput.value}\n` +
-            `Duration: ${days} day(s)\n` +
-            `Total: Rs. ${totalAmount.toLocaleString("en-IN")}\n\n` +
-            `This is a demo payment flow.`
-          );
-
-
-          closeBookingModal();
-
-          rentalForm.reset();
-
-          selectedVehicleInput.value = "";
-
-          currentDailyRate = 0;
-
-          totalPriceDisplay.textContent =
-            "Rs. 0";
-
-        }
-      );
-
-
-      /* =================================
-         CLOSE MODALS WHEN CLICKING OUTSIDE
-      ================================== */
-
+      /* Modal dismissal */
       window.addEventListener("click", event => {
-
         if (event.target === bookingModal) {
           closeBookingModal();
         }
-
-        if (event.target === loginModal) {
-          closeLoginModal();
-        }
-
       });
 
-
-      /* =================================
-         ESC KEY CLOSES MODALS
-      ================================== */
-
-      document.addEventListener(
-        "keydown",
-        event => {
-
-          if (event.key !== "Escape") {
-            return;
-          }
-
-          if (bookingModal.classList.contains("show")) {
-            closeBookingModal();
-          }
-
-          if (loginModal.classList.contains("show")) {
-            closeLoginModal();
-          }
-
+      document.addEventListener("keydown", event => {
+        if (
+          event.key === "Escape" &&
+          bookingModal.classList.contains("show")
+        ) {
+          closeBookingModal();
         }
-      );
+      });
 
-
-      /* =================================
-         SMOOTH VEHICLE NAVIGATION
-      ================================== */
-
-      document
-        .querySelector('a[href="#vehicles"]')
-        ?.addEventListener("click", () => {
-
-          setTimeout(() => {
-
-            document
-              .getElementById("vehicles")
-              ?.scrollIntoView({
-                behavior: "smooth"
-              });
-
-          }, 50);
-
-        });
-
+      /* Close mobile menu after resizing */
+      window.addEventListener("resize", () => {
+        if (
+          window.innerWidth > 700 &&
+          navLinks.classList.contains("open")
+        ) {
+          navLinks.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open navigation menu");
+          menuToggle.textContent = "☰";
+        }
+      });
     });
   </script>
 

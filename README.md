@@ -155,7 +155,6 @@ The platform includes multiple vehicle options for different types of work:
 | City Scooter 125cc     | Scooter    | Food & Parcel Delivery     |
 | Sedan Comfort          | Sedan      | Ride-Sharing               |
 | Standard Commuter Bike | Motorcycle | Multi-Purpose              |
-| Compact Van 1.5T       | Van        | Delivery & Parcel Services |
 | Luxury SUV             | SUV        | Ride-Sharing               |
 
 Vehicle cards include rental details and daily pricing, and users can select a vehicle to begin the booking process.
